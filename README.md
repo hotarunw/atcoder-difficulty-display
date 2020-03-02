@@ -4,6 +4,8 @@
 
 ## AtCoderDifficultyDisplay
 
+**[Greasy ForkからUserScriptをインストール](https://greasyfork.org/ja/scripts/397185-atcoderdifficultydisplay)**
+
 ![AtCoderDifficultyDisplay](AtCoderDifficultyDisplay.png)
 
 問題のページに[AtCoder Problems](https://kenkoooo.com/atcoder/)のDifficultyを表示する。
@@ -15,6 +17,8 @@
 * リファクタリング。
 
 ## AtCoderProblemLinks
+
+**[Greasy ForkからUserScriptをインストール](https://greasyfork.org/ja/scripts/397186-atcoderproblemlinks)**
 
 ![AtCoderProblemLinks](AtCoderProblemLinks.png)
 
