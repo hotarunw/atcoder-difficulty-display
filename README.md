@@ -4,7 +4,7 @@
 
 ## AtCoderDifficultyDisplay
 
-**[Greasy ForkからUserScriptをインストール](https://greasyfork.org/ja/scripts/397185-atcoderdifficultydisplay)**
+[![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoderdifficultydisplay)
 
 ![AtCoderDifficultyDisplay](AtCoderDifficultyDisplay.png)
 
@@ -18,7 +18,7 @@
 
 ## AtCoderProblemLinks
 
-**[Greasy ForkからUserScriptをインストール](https://greasyfork.org/ja/scripts/397186-atcoderproblemlinks)**
+[![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397186-atcoderproblemlinks)
 
 ![AtCoderProblemLinks](AtCoderProblemLinks.png)
 
@@ -30,6 +30,8 @@
 * 問題idが`*_a, *_b, ...`以外のとき、誤ったリンクを貼る。
 
 ## License
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 Copyright (c) 2020 hotarunx
 
