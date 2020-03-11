@@ -2,6 +2,9 @@
 
 私が作成したAtCoderのUserScript（Greasemonkey scripts）です。
 
+1. [AtCoderDifficultyDisplay](#AtCoderDifficultyDisplay)
+2. [AtCoderProblemLinks](#AtCoderProblemLinks)
+
 ## AtCoderDifficultyDisplay
 
 [![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoderdifficultydisplay)
