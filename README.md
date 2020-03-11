@@ -3,7 +3,7 @@
 私が作成したAtCoderのUserScript（Greasemonkey scripts）です。
 
 1. [AtCoderDifficultyDisplay](#AtCoderDifficultyDisplay)
-2. [AtCoderProblemLinks](#AtCoderProblemLinks)
+2. ~~[AtCoderProblemLinks](#AtCoderProblemLinks)~~
 
 ## AtCoderDifficultyDisplay
 
@@ -19,18 +19,20 @@
 * Difficulty Circle（TopCoderでユーザーのレートを表す色付き円マーク）を表示する。
 * リファクタリング。
 
-## AtCoderProblemLinks
+## ~~AtCoderProblemLinks~~
 
-[![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397186-atcoderproblemlinks)
+<!-- [![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397186-atcoderproblemlinks) -->
 
 ![AtCoderProblemLinks](AtCoderProblemLinks.png)
 
-タブに問題へのリンクを追加する。
+~~タブに問題へのリンクを追加する。~~
 
-### 問題点・改善点
+[atcoder-problem-navigator](https://greasyfork.org/ja/scripts/383360-atcoder-problem-navigator)がやりたいことをやってるので作るのやめます。
 
-* 問題数が6問以外のとき、正しい数のリンクを貼れない。
-* 問題idが`*_a, *_b, ...`以外のとき、誤ったリンクを貼る。
+### ~~問題点・改善点~~
+
+* ~~問題数が6問以外のとき、正しい数のリンクを貼れない。~~
+* ~~問題idが`*_a, *_b, ...`以外のとき、誤ったリンクを貼る。~~
 
 ## License
 
