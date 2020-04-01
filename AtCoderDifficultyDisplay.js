@@ -1,14 +1,15 @@
 // ==UserScript==
-// @name         AtCoderDifficultyDisplay
-// @namespace    https://github.com/hotarunx
-// @version      0.1
-// @description  display a difficulty of AtCoder Problems.
-// @author       hotarunx
-// @match        https://atcoder.jp/contests/*/tasks/*
-// @grant        none
-// @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
-// @connect      https://kenkoooo.com/atcoder/resources/*
-// @license      MIT
+// @name            AtCoderDifficultyDisplay
+// @namespace       https://github.com/hotarunx
+// @version         0.1
+// @description     display a difficulty of AtCoder Problems.
+// @description:ja  AtCoder ProblemsのDifficultyを表示します。
+// @author          hotarunx
+// @match           https://atcoder.jp/contests/*/tasks/*
+// @grant           none
+// @require         https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @connect         https://kenkoooo.com/atcoder/resources/*
+// @license         MIT
 //
 // Copyright(c) 2020 hotarunx
 // This software is released under the MIT License, see LICENSE or https://github.com/hotarunx/AtCoderMyExtensions/blob/master/LICENSE.
