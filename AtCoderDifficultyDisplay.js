@@ -8,9 +8,10 @@
 // @grant        none
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @connect      https://kenkoooo.com/atcoder/resources/*
+// @license      MIT
 //
 // Copyright(c) 2020 hotarunx
-// This software is released under the MIT License, see LICENSE.
+// This software is released under the MIT License, see LICENSE or https://github.com/hotarunx/AtCoderMyExtensions/blob/master/LICENSE.
 //
 // ==/UserScript==
 
