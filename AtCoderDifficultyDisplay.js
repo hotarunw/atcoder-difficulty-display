@@ -15,6 +15,23 @@
 //
 // ==/UserScript==
 
+function getElementOfProblemStatus() {
+    let element_status;
+
+    const main_container = document.getElementById('main-container');
+    const elements_p = main_container.getElementsByTagName("p");
+
+    for (let i = 0; i < elements_p.length; i++) {
+        const element = elements_p[i];
+        if (element.textContent.match("メモリ制限:") || element.textContent.match("Memory Limit:")) {
+            element_status = element;
+            break
+        }
+    }
+
+    return element_status;
+}
+
 // return rating color
 function colorRating(rating) {
     let color = '#FFFFFF'; // white
@@ -41,16 +58,7 @@ function colorRating(rating) {
     const id = path[path.length - 1];
 
     // get Element of Problem Status
-    let element_status
-    const main_container = document.getElementById('main-container');
-    const elements_p = main_container.getElementsByTagName("p");
-    for (let i = 0; i < elements_p.length; i++) {
-        const element = elements_p[i];
-        if (element.textContent.match("メモリ制限:") || element.textContent.match("Memory Limit:")) {
-            element_status = element;
-            break
-        }
-    }
+    let element_status = getElementOfProblemStatus();
 
     // fetch Information API
     this.fetch(url)
