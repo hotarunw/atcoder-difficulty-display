@@ -15,6 +15,23 @@
 //
 // ==/UserScript==
 
+// return rating color
+function colorRating(rating) {
+    let color = '#FFFFFF'; // white
+    if /**/ (rating < 0400) color = '#808080'; // gray
+    else if (rating < 0800) color = '#804000'; // brown
+    else if (rating < 1200) color = '#008000'; // green
+    else if (rating < 1600) color = '#00C0C0'; // cyan
+    else if (rating < 2000) color = '#0000FF'; // blue
+    else if (rating < 2400) color = '#C0C000'; // yellow
+    else if (rating < 2800) color = '#FF8000'; // orange
+    else if (rating < 3200) color = '#FF0000'; // red
+    else if (rating < 3600) color = '#E4E4E4'; // silver
+    else /*              */ color = '#FFD325'; // gold
+
+    return color;
+}
+
 (function () {
     // URL of Estimated difficulties of the problems
     const url = "https://kenkoooo.com/atcoder/resources/problem-models.json";
@@ -57,18 +74,8 @@
                     if (problem.is_experimental) add_text += "🧪";
                     add_text += difficulty.toFixed();
 
-                    // colorize text
-                    let color = '#FFFFFF'; // white
-                    if (difficulty < 400) color = '#808080'; // gray
-                    else if (difficulty < 800) color = '#804000'; // brown
-                    else if (difficulty < 1200) color = '#008000'; // green
-                    else if (difficulty < 1600) color = '#00C0C0'; // cyan
-                    else if (difficulty < 2000) color = '#0000FF'; // blue
-                    else if (difficulty < 2400) color = '#C0C000'; // yellow
-                    else if (difficulty < 2800) color = '#FF8000'; // orange
-                    else if (difficulty < 3200) color = '#FF0000'; // red
-                    else if (difficulty < 3600) color = '#E4E4E4'; // silver
-                    else /*                  */ color = '#FFD325'; // gold
+                    // color difficulty value
+                    const color = colorRating(difficulty);
 
                     const add_span = "<span style='color: " + color + ";'>" + add_text + "</span>";
 
