@@ -49,10 +49,7 @@ function colorRating(rating) {
     return color;
 }
 
-(function () {
-    // URL of Estimated difficulties of the problems
-    const url = "https://kenkoooo.com/atcoder/resources/problem-models.json";
-
+function addDifficultyText(jsonData) {
     // get id
     const path = location.pathname.split("/");
     const id = path[path.length - 1];
@@ -60,35 +57,41 @@ function colorRating(rating) {
     // get Element of Problem Status
     let status = getElementOfProblemStatus();
 
+    const problem = jsonData[id];
+
+    // if problem exist in json
+    if (problem != null) {
+        const difficulty = problem.difficulty;
+
+        // if difficulty is exist
+        if (difficulty != null) {
+            status.textContent += " / ";
+
+            // add difficulty value
+            let add_text = "Difficulty: ";
+            if (problem.is_experimental) add_text += "🧪";
+            add_text += difficulty.toFixed();
+
+            // color difficulty value
+            const color = colorRating(difficulty);
+
+            const add_span = "<span style='color: " + color + ";'>" + add_text + "</span>";
+
+            status.innerHTML += add_span;
+        }
+    }
+
+}
+
+(function () {
+    // URL of Estimated difficulties of the problems
+    const URL = "https://kenkoooo.com/atcoder/resources/problem-models.json";
+
     // fetch Information API
-    this.fetch(url)
-        .then(function (data) {
-            return data.json();
-        })
-        .then(function (json) {
-            // search problem
-            const problem = json[id];
+    fetch(URL)
+        .then((response) => response.json())
+        .then((jsonData) => {
+            addDifficultyText(jsonData);
+        });
 
-            // if problem exist in json
-            if (problem != null) {
-                const difficulty = problem.difficulty;
-
-                // if difficulty is exist
-                if (difficulty != null) {
-                    status.textContent += " / ";
-
-                    // add difficulty value
-                    let add_text = "Difficulty: ";
-                    if (problem.is_experimental) add_text += "🧪";
-                    add_text += difficulty.toFixed();
-
-                    // color difficulty value
-                    const color = colorRating(difficulty);
-
-                    const add_span = "<span style='color: " + color + ";'>" + add_text + "</span>";
-
-                    status.innerHTML += add_span;
-                }
-            }
-        })
 })();
