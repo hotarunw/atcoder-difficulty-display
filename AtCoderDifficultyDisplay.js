@@ -58,7 +58,7 @@ function colorRating(rating) {
     const id = path[path.length - 1];
 
     // get Element of Problem Status
-    let element_status = getElementOfProblemStatus();
+    let status = getElementOfProblemStatus();
 
     // fetch Information API
     this.fetch(url)
@@ -75,7 +75,7 @@ function colorRating(rating) {
 
                 // if difficulty is exist
                 if (difficulty != null) {
-                    element_status.textContent += " / ";
+                    status.textContent += " / ";
 
                     // add difficulty value
                     let add_text = "Difficulty: ";
@@ -87,7 +87,7 @@ function colorRating(rating) {
 
                     const add_span = "<span style='color: " + color + ";'>" + add_text + "</span>";
 
-                    element_status.innerHTML += add_span;
+                    status.innerHTML += add_span;
                 }
             }
         })
