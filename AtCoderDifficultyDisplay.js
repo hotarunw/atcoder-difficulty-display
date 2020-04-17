@@ -7,7 +7,6 @@
 // @author          hotarunx
 // @match           https://atcoder.jp/contests/*/tasks/*
 // @grant           none
-// @require         https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // @connect         https://kenkoooo.com/atcoder/resources/*
 // @license         MIT
 //
