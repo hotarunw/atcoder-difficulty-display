@@ -49,7 +49,25 @@ function colorRating(rating) {
     return color;
 }
 
+function generateDifficultyText(difficulty, is_experimental) {
+    let text = " / ";
+
+    // add difficulty value
+    let colored_text = "Difficulty: ";
+    if (is_experimental) colored_text += "🧪";
+    colored_text += difficulty.toFixed();
+
+    // color difficulty value
+    const color = colorRating(difficulty);
+
+    text += "<span style='color: " + color + ";'>" + colored_text + "</span>";
+
+    return text;
+}
+
 function addDifficultyText(jsonData) {
+    let text = "";
+
     // get id
     const path = location.pathname.split("/");
     const id = path[path.length - 1];
@@ -58,29 +76,12 @@ function addDifficultyText(jsonData) {
     let status = getElementOfProblemStatus();
 
     const problem = jsonData[id];
-
     // if problem exist in json
-    if (problem != null) {
-        const difficulty = problem.difficulty;
-
-        // if difficulty is exist
-        if (difficulty != null) {
-            status.textContent += " / ";
-
-            // add difficulty value
-            let add_text = "Difficulty: ";
-            if (problem.is_experimental) add_text += "🧪";
-            add_text += difficulty.toFixed();
-
-            // color difficulty value
-            const color = colorRating(difficulty);
-
-            const add_span = "<span style='color: " + color + ";'>" + add_text + "</span>";
-
-            status.innerHTML += add_span;
-        }
+    if (problem != null && problem.difficulty != null) {
+        text += generateDifficultyText(problem.difficulty, problem.is_experimental);
     }
 
+    status.innerHTML += text;
 }
 
 (function () {
