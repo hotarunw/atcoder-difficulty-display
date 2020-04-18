@@ -17,9 +17,6 @@
 
 * 他のページでもDifficultyを表示する。
 * Difficulty Circle（TopCoderでユーザーのレートを表す色付き円マーク）を表示する。
-* リファクタリング。
-* Difficultyが400未満の問題において、[Problemsトップページ](https://kenkoooo.com/atcoder/#/table/)とこのUserScriptのDifficultyが異なる。
-  * [Problemsトップページ](https://kenkoooo.com/atcoder/#/table/)と[ProblemsのAPI](https://kenkoooo.com/atcoder/resources/problem-models.json)ではDifficultyが異なるから。Difficultyが400未満のときはなんらかの補正をしてると思う。
 
 ## ~~AtCoderProblemLinks~~
 
