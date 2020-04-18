@@ -81,7 +81,7 @@ function addDifficultyText(jsonData) {
         text += generateDifficultyText(problem.difficulty, problem.is_experimental);
     }
 
-    status.innerHTML += text;
+    status.insertAdjacentHTML('beforeend', text);
 }
 
 (function () {
