@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            AtCoderDifficultyDisplay
 // @namespace       https://github.com/hotarunx
-// @version         0.1
+// @version         0.2
 // @description     display a difficulty of AtCoder Problems.
 // @description:ja  AtCoder ProblemsのDifficultyを表示します。
 // @author          hotarunx
