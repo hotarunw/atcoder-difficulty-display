@@ -49,8 +49,23 @@ function colorRating(rating) {
     return color;
 }
 
+// correct rating under 400
+// see https://qiita.com/anqooqie/items/92005e337a0d2569bdbd#%E6%80%A7%E8%B3%AA4-%E5%88%9D%E5%BF%83%E8%80%85%E3%81%B8%E3%81%AE%E6%85%88%E6%82%B2
+function correctLowerRating(rating) {
+    if (rating >= 400) return rating;
+
+    do {
+        rating = 400 / Math.exp((400 - rating) / 400);
+
+    } while (rating < 0);
+
+    return rating;
+}
+
 function generateDifficultyText(difficulty, is_experimental) {
     let text = " / ";
+
+    difficulty = correctLowerRating(difficulty)
 
     // add difficulty value
     let colored_text = "Difficulty: ";
