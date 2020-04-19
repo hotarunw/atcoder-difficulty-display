@@ -8,6 +8,7 @@
 // @match           https://atcoder.jp/contests/*/tasks/*
 // @grant           none
 // @connect         https://kenkoooo.com/atcoder/resources/*
+// @connect         https://kenkoooo.com/atcoder/atcoder-api/*
 // @license         MIT
 //
 // Copyright(c) 2020 hotarunx
@@ -99,15 +100,35 @@ function addDifficultyText(jsonData) {
     status.insertAdjacentHTML('beforeend', text);
 }
 
+function addSubmissionStatusText(contestsData, submissionData) {
+    console.log("hello");
+}
+
 (function () {
     // URL of Estimated difficulties of the problems
-    const URL = "https://kenkoooo.com/atcoder/resources/problem-models.json";
+    const CONTESTS_INFORMATION = "https://kenkoooo.com/atcoder/resources/contests.json";
+    const SUBMISSION_API = "https://kenkoooo.com/atcoder/atcoder-api/results?user=" + userScreenName;
+    const SUBMISSIONS_DATASET = "https://kenkoooo.com/atcoder/resources/problem-models.json";
 
     // fetch Information API
-    fetch(URL)
+    fetch(SUBMISSIONS_DATASET)
         .then((response) => response.json())
         .then((jsonData) => {
             addDifficultyText(jsonData);
         });
+
+    if (userScreenName != "") {
+        fetch(CONTESTS_INFORMATION)
+            .then((response) => response.json())
+            .then((contestsData) => {
+
+                fetch(SUBMISSION_API)
+                    .then((response) => response.json())
+                    .then((submissionData) => {
+
+                        addSubmissionStatusText(contestsData, submissionData);
+                    });
+            });
+    }
 
 })();
