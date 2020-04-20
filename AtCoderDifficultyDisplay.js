@@ -101,7 +101,54 @@ function addDifficultyText(jsonData) {
 }
 
 function addSubmissionStatusText(contestsData, submissionData) {
-    console.log("hello");
+    let text = "";
+
+    // get (start,end)time from contests info API
+    const contest = contestsData.filter(function (item, index) { if (item.id == contestScreenName) return true; })[0];
+    const start = contest["start_epoch_second"];
+    const duration = contest["duration_second"];
+    const end = start + duration;
+
+    const path = location.pathname.split("/");
+    const id = path[path.length - 1];
+
+    // get Element of Problem Status
+    let status = getElementOfProblemStatus();
+
+    // submission status
+    let contest_accepted = false, accepted = false, contest_submitted = false, submitted = false;
+
+    // search all submissions to this problem
+    const submissions = submissionData.filter(function (item, index) { if (item.problem_id == id) return true; });
+    for (const item of submissions) {
+        const time = item["epoch_second"];
+
+        // update submission status
+
+        if (start <= time && time <= end) {
+            contest_submitted = true;
+        } else {
+            submitted = true;
+        }
+        if (item["result"] == "AC") {
+            accepted = true;
+        }
+        if ((start <= time && time <= end) && item["result"] == "AC") {
+            contest_accepted = true;
+        }
+
+    }
+
+    // generate text following submission status
+    text += " / "
+
+    if (contest_accepted) text += "<span style='color: darkgreen;'>Accepted</span>";
+    else if (accepted) text += "<span style='color: #008000;'>Accepted</span>";
+    else if (contest_submitted) text += "<span style='color: #FF8000;'>Trying</span>";
+    else if (submitted) text += "<span style='color: #C0C000;'>Trying</span>";
+    else text += "Trying";
+
+    status.insertAdjacentHTML('beforeend', text);
 }
 
 (function () {
