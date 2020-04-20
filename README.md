@@ -19,10 +19,7 @@ Difficultyはその値により色つけされます。
 
 その問題をACしたかどうかの表示は、その問題をコンテスト中にACした、まだ提出していない、などに応じて色つけされます。
 
-### 問題点・改善点
-
-* 他のページでもDifficultyを表示する。
-* Difficulty Circle（TopCoderでユーザーのレートを表す色付き円マーク）を表示する。
+問題点、改善点は**Issue**に書く。
 
 ## ~~AtCoderProblemLinks~~
 
