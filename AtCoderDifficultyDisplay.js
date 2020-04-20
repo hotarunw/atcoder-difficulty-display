@@ -16,6 +16,49 @@
 //
 // ==/UserScript==
 
+(function () {
+
+    // -------------------------------------------------------------------------
+    // 次の変数の値を書き換えることで各数値を表示するかどうかを変更できます
+
+    // Difficultyを表示するかどうか
+    const displayDifficulty = true;
+
+    // 提出状況を表示するかどうか
+    const displaySubmissionStatus = true;
+
+    // true: 表示する
+    // false: 表示しない
+    // -------------------------------------------------------------------------
+
+    // URL of Estimated difficulties of the problems
+    const CONTESTS_INFORMATION = "https://kenkoooo.com/atcoder/resources/contests.json";
+    const SUBMISSION_API = "https://kenkoooo.com/atcoder/atcoder-api/results?user=" + userScreenName;
+    const SUBMISSIONS_DATASET = "https://kenkoooo.com/atcoder/resources/problem-models.json";
+
+    if (displayDifficulty)
+        fetch(SUBMISSIONS_DATASET)
+            .then((response) => response.json())
+            .then((jsonData) => {
+                addDifficultyText(jsonData);
+            });
+
+    if (displaySubmissionStatus && userScreenName != "")
+        fetch(CONTESTS_INFORMATION)
+            .then((response) => response.json())
+            .then((contestsData) => {
+
+                fetch(SUBMISSION_API)
+                    .then((response) => response.json())
+                    .then((submissionData) => {
+
+                        addSubmissionStatusText(contestsData, submissionData);
+                    });
+            });
+
+
+})();
+
 function getElementOfProblemStatus() {
     let element_status;
 
@@ -150,32 +193,3 @@ function addSubmissionStatusText(contestsData, submissionData) {
 
     status.insertAdjacentHTML('beforeend', text);
 }
-
-(function () {
-    // URL of Estimated difficulties of the problems
-    const CONTESTS_INFORMATION = "https://kenkoooo.com/atcoder/resources/contests.json";
-    const SUBMISSION_API = "https://kenkoooo.com/atcoder/atcoder-api/results?user=" + userScreenName;
-    const SUBMISSIONS_DATASET = "https://kenkoooo.com/atcoder/resources/problem-models.json";
-
-    // fetch Information API
-    fetch(SUBMISSIONS_DATASET)
-        .then((response) => response.json())
-        .then((jsonData) => {
-            addDifficultyText(jsonData);
-        });
-
-    if (userScreenName != "") {
-        fetch(CONTESTS_INFORMATION)
-            .then((response) => response.json())
-            .then((contestsData) => {
-
-                fetch(SUBMISSION_API)
-                    .then((response) => response.json())
-                    .then((submissionData) => {
-
-                        addSubmissionStatusText(contestsData, submissionData);
-                    });
-            });
-    }
-
-})();
