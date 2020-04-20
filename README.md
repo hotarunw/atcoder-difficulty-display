@@ -13,6 +13,12 @@
 
 問題のページに[AtCoder Problems](https://kenkoooo.com/atcoder/)のDifficultyを表示します。
 
+Difficultyとその問題をACしたかどうかを表示します。
+
+Difficultyはその値により色つけされます。
+
+その問題をACしたかどうかの表示は、その問題をコンテスト中にACした、まだ提出していない、などに応じて色つけされます。
+
 ### 問題点・改善点
 
 * 他のページでもDifficultyを表示する。
