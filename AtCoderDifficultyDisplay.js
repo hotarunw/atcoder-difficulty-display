@@ -185,10 +185,10 @@ function addSubmissionStatusText(contestsData, submissionData) {
     // generate text following submission status
     text += " / "
 
-    if (contest_accepted) text += "<span style='color: #5CB85C;'>☆Accepted</span>";
+    if (contest_accepted) text += "<span style='color: #5CB85C;'>★Accepted</span>";
     else if (accepted) text += "<span style='color: #5CB85C;'>Accepted</span>";
     else if (submitted) text += "<span style='color: #F0AD4E;'>Trying</span>";
-    else if (contest_submitted) text += "<span style='color: #F0AD4E;'>☆Trying</span>";
+    else if (contest_submitted) text += "<span style='color: #F0AD4E;'>★Trying</span>";
     else text += "Trying";
 
     status.insertAdjacentHTML('beforeend', text);
