@@ -14,7 +14,6 @@
 [![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoderdifficultydisplay)
 
 ![AtCoderDifficultyDisplay](AtCoderDifficultyDisplay.png)
-![a](https://raw.githubusercontent.com/hotarunx/AtCoderMyExtensions/master/AtCoderDifficultyDisplay.png)
 
 [**AtCoder**](https://atcoder.jp/)の問題のページに[**AtCoder Problems**](https://kenkoooo.com/atcoder/)の<span style="color: red; ">**Difficulty**</span>と、提出ステータス表示します。
 
