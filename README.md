@@ -15,7 +15,7 @@
 
 ![AtCoderDifficultyDisplay](AtCoderDifficultyDisplay.png)
 
-問題のページに[AtCoder Problems](https://kenkoooo.com/atcoder/)のDifficultyを表示します。
+問題のページに[**AtCoder Problems**](https://kenkoooo.com/atcoder/)の<span style="color: red; ">**Difficulty**</span>を表示します。
 
 ### Description
 
