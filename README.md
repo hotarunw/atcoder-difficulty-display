@@ -14,6 +14,7 @@
 [![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoderdifficultydisplay)
 
 ![AtCoderDifficultyDisplay](AtCoderDifficultyDisplay.png)
+![a](https://raw.githubusercontent.com/hotarunx/AtCoderMyExtensions/master/AtCoderDifficultyDisplay.png)
 
 [**AtCoder**](https://atcoder.jp/)の問題のページに[**AtCoder Problems**](https://kenkoooo.com/atcoder/)の<span style="color: red; ">**Difficulty**</span>と、提出ステータス表示します。
 
@@ -38,11 +39,11 @@ Difficultyについては
 提出ステータスを表す文章の意味は次です。
 （AtCoder ProblemsでShow By Contest Resultにしたときと同様です）
 
-*   <span style='color: #5CB85C;'>★Accepted</span> : コンテスト中にACしました。
-*   <span style='color: #5CB85C;'>Accepted</span> : ACしました。
-*   <span style='color: #F0AD4E;'>★Trying</span> : コンテスト中にのみ提出しました。
-*   <span style='color: #F0AD4E;'>Trying</span> : 提出しました。
-*   Trying : 提出していません。
+*   緑色<span style='color: #5CB85C;'>★Accepted</span> : コンテスト中にACしました。
+*   緑色<span style='color: #5CB85C;'>Accepted</span> : ACしました。
+*   黄色<span style='color: #F0AD4E;'>★Trying</span> : コンテスト中にのみ提出しました。
+*   黄色<span style='color: #F0AD4E;'>Trying</span> : 提出しました。
+*   黒色Trying : 提出していません。
 
 ### Install
 
