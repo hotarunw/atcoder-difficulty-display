@@ -3,7 +3,7 @@
 // @namespace       https://github.com/hotarunx
 // @version         0.3
 // @description     display a difficulty of AtCoder Problems.
-// @description:ja  AtCoder ProblemsのDifficultyを表示します。
+// @description:ja  AtCoder Problemsの難易度を表示します。
 // @author          hotarunx
 // @match           https://atcoder.jp/contests/*/tasks/*
 // @grant           none
@@ -19,9 +19,10 @@
 (function () {
 
     // -------------------------------------------------------------------------
+    // 設定
     // 次の変数の値を書き換えることで各数値を表示するかどうかを変更できます
 
-    // Difficultyを表示するかどうか
+    // 難易度を表示するかどうか
     const displayDifficulty = true;
 
     // 提出状況を表示するかどうか
