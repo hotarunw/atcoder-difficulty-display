@@ -2,12 +2,12 @@
 
 私が作成したAtCoderのユーザースクリプト（Greasemonkey scripts）です。
 
-*   [AtCoderMyExtensions](#atcodermyextensions)
-    *   [AtCoderDifficultyDisplay](#atcoderdifficultydisplay)
-        *   [Description](#description)
-        *   [Install](#install)
-    *   [License](#license)
-        *   [Install](#install-1)
+- [AtCoderMyExtensions](#atcodermyextensions)
+  - [AtCoderDifficultyDisplay](#atcoderdifficultydisplay)
+    - [Description](#description)
+    - [Install](#install)
+    - [Note](#note)
+  - [License](#license)
 
 ## AtCoderDifficultyDisplay
 
@@ -42,6 +42,10 @@ AtCoderの問題のページにAtCoder Problemsが推定した難易度と、そ
 を読んでください。
 
 提出状況を表す文章の意味は次です。
+
+![AtCoderDifficultyDisplayStatus](AtCoderDifficultyDisplayStatus.png)
+
+<!-- ![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderMyExtensions/master/AtCoderDifficultyDisplayStatus.png) -->
 
 *   緑色★Accepted : コンテスト中にACしました。
 *   緑色Accepted : ACしました。
