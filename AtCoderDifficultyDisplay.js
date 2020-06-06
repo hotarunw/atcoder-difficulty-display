@@ -148,33 +148,49 @@ function addSubmissionStatusText(submissionData) {
 
     // 4つの提出状況記録変数
     // コンテスト中にACした、コンテスト外にACした、コンテスト中に提出した、コンテスト外に提出した
-    let contestAccepted = false, accepted = false, contestSubmission = false, submitted = false;
+    let contestAccepted = false, accepted = false, contestSubmitted = false, submitted = false;
+
+    let latestAcceptedSubmission, latestSubmission;
 
     // この問題への提出をすべて探索して提出状況を更新する
     const submissions = submissionData.filter(function (item, index) { if (item.problem_id == id) return true; });
+    submissions.sort((a, b) => a.epoch_second - b.epoch_second);
+
     for (const item of submissions) {
         const time = item["epoch_second"];
         const isDuringContest = start <= time && time <= end;
         const isAccepted = item["result"] == "AC";
 
         if (isDuringContest) {
-            contestSubmission = true;
+            contestSubmitted = true;
             if (isAccepted) contestAccepted = true;
         } else {
             submitted = true;
             if (isAccepted) accepted = true;
         }
+
+        if (isAccepted) latestAcceptedSubmission = item;
+        else latestSubmission = item;
     }
 
     // 提出状況を表す文字列を生成
     let text;
-    if (contestAccepted) text = " / <span style='color: #5CB85C;'>★Accepted</span>";
-    else if (accepted) text = " / <span style='color: #5CB85C;'>Accepted</span>";
-    else if (submitted) text = " / <span style='color: #F0AD4E;'>Trying</span>";
-    else if (contestSubmission) text = " / <span style='color: #F0AD4E;'>★Trying</span>";
-    else text = " / Trying";
+    if (contestAccepted) text = "<span style='color: #5CB85C;'>★Accepted</span>";
+    else if (accepted) text = "<span style='color: #5CB85C;'>Accepted</span>";
+    else if (submitted) text = "<span style='color: #F0AD4E;'>Trying</span>";
+    else if (contestSubmitted) text = "<span style='color: #F0AD4E;'>★Trying</span>";
+    else text = "Trying";
+
+    // 最新のAC提出または提出へのリンクを追加
+    if (submitted || contestSubmitted) {
+        const submission = (latestAcceptedSubmission != null ? latestAcceptedSubmission : latestSubmission);
+
+        const url = "https://atcoder.jp/contests/" + submission.contest_id + "/submissions/" + submission.id;
+
+        text = "<a href='" + url + "'>" + text + "</a>";
+    }
 
     // 問題ステータスのHTMLオブジェクトを探してtextを追加
     let status = getElementOfProblemStatus();
-    status.insertAdjacentHTML('beforeend', text);
+    status.insertAdjacentHTML('beforeend', " / " + text);
 }
