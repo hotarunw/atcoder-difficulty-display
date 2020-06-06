@@ -33,7 +33,6 @@
     // -------------------------------------------------------------------------
 
     // URL of Estimated difficulties of the problems
-    const CONTESTS_INFORMATION = "https://kenkoooo.com/atcoder/resources/contests.json";
     const SUBMISSION_API = "https://kenkoooo.com/atcoder/atcoder-api/results?user=" + userScreenName;
     const SUBMISSIONS_DATASET = "https://kenkoooo.com/atcoder/resources/problem-models.json";
 
@@ -45,18 +44,11 @@
             });
 
     if (displaySubmissionStatus && userScreenName != "")
-        fetch(CONTESTS_INFORMATION)
+        fetch(SUBMISSION_API)
             .then((response) => response.json())
-            .then((contestsData) => {
-
-                fetch(SUBMISSION_API)
-                    .then((response) => response.json())
-                    .then((submissionData) => {
-
-                        addSubmissionStatusText(contestsData, submissionData);
-                    });
+            .then((submissionData) => {
+                addSubmissionStatusText(submissionData);
             });
-
 
 })();
 
@@ -143,53 +135,44 @@ function addDifficultyText(jsonData) {
     status.insertAdjacentHTML('beforeend', text);
 }
 
-function addSubmissionStatusText(contestsData, submissionData) {
-    let text = "";
-
-    // get (start,end)time from contests info API
-    const contest = contestsData.filter(function (item, index) { if (item.id == contestScreenName) return true; })[0];
-    const start = contest["start_epoch_second"];
-    const duration = contest["duration_second"];
-    const end = start + duration;
-
+function addSubmissionStatusText(submissionData) {
+    // URLから問題IDを取得
     const path = location.pathname.split("/");
     const id = path[path.length - 1];
 
-    // get Element of Problem Status
-    let status = getElementOfProblemStatus();
+    // コンテスト時間を取得
+    const start = Math.floor(Date.parse(startTime._i) / 1000);
+    const end = Math.floor(Date.parse(endTime._i) / 1000);
 
-    // submission status
-    let contest_accepted = false, accepted = false, contest_submitted = false, submitted = false;
+    // 4つの提出状況記録変数
+    // コンテスト中にACした、コンテスト外にACした、コンテスト中に提出した、コンテスト外に提出した
+    let contestAccepted = false, accepted = false, contestSubmission = false, submitted = false;
 
-    // search all submissions to this problem
+    // この問題への提出をすべて探索して提出状況を更新する
     const submissions = submissionData.filter(function (item, index) { if (item.problem_id == id) return true; });
     for (const item of submissions) {
         const time = item["epoch_second"];
+        const isDuringContest = start <= time && time <= end;
+        const isAccepted = item["result"] == "AC";
 
-        // update submission status
-
-        if (start <= time && time <= end) {
-            contest_submitted = true;
+        if (isDuringContest) {
+            contestSubmission = true;
+            if (isAccepted) contestAccepted = true;
         } else {
             submitted = true;
+            if (isAccepted) accepted = true;
         }
-        if (item["result"] == "AC") {
-            accepted = true;
-        }
-        if ((start <= time && time <= end) && item["result"] == "AC") {
-            contest_accepted = true;
-        }
-
     }
 
-    // generate text following submission status
-    text += " / "
+    // 提出状況を表す文字列を追加
+    let text;
+    if (contestAccepted) text = " / <span style='color: #5CB85C;'>★Accepted</span>";
+    else if (accepted) text = " / <span style='color: #5CB85C;'>Accepted</span>";
+    else if (submitted) text = " / <span style='color: #F0AD4E;'>Trying</span>";
+    else if (contestSubmission) text = " / <span style='color: #F0AD4E;'>★Trying</span>";
+    else text = " / Trying";
 
-    if (contest_accepted) text += "<span style='color: #5CB85C;'>★Accepted</span>";
-    else if (accepted) text += "<span style='color: #5CB85C;'>Accepted</span>";
-    else if (submitted) text += "<span style='color: #F0AD4E;'>Trying</span>";
-    else if (contest_submitted) text += "<span style='color: #F0AD4E;'>★Trying</span>";
-    else text += "Trying";
-
+    // 問題ステータスのHTMLオブジェクトを探してtextを追加
+    let status = getElementOfProblemStatus();
     status.insertAdjacentHTML('beforeend', text);
 }
