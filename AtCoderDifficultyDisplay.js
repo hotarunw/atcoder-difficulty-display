@@ -128,19 +128,18 @@ function generateDifficultyText(difficulty, is_experimental) {
 function addDifficultyText(jsonData) {
     let text = "";
 
-    // get id
+    // get id and problem
     const path = location.pathname.split("/");
     const id = path[path.length - 1];
+    const problem = jsonData[id];
+
+    // if problem don't exist in json
+    if (problem == null || problem.difficulty == null) { return; }
 
     // get Element of Problem Status
     let status = getElementOfProblemStatus();
 
-    const problem = jsonData[id];
-    // if problem exist in json
-    if (problem != null && problem.difficulty != null) {
-        text += generateDifficultyText(problem.difficulty, problem.is_experimental);
-    }
-
+    text += generateDifficultyText(problem.difficulty, problem.is_experimental);
     status.insertAdjacentHTML('beforeend', text);
 }
 
