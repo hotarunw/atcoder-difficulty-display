@@ -112,6 +112,10 @@ function generateDifficultyText(difficulty, is_experimental) {
     const color = colorRating(difficulty);
     difficultyText = "<span style='color: " + color + ";'>" + difficultyText + "</span>";
 
+    // Problemsへのリンクを追加
+    const atcoderProblemsUrl = "https://kenkoooo.com/atcoder/#/table/" + userScreenName;
+    difficultyText = "<a href='" + atcoderProblemsUrl + "'>" + difficultyText + "</a>";
+
     return " / " + difficultyText;
 }
 
