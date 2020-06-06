@@ -80,8 +80,8 @@ function getElementOfProblemStatus() {
 // return rating color
 function colorRating(rating) {
     let color = '#FFFFFF'; // white
-    if /**/ (rating < 0400) color = '#808080'; // gray
-    else if (rating < 0800) color = '#804000'; // brown
+    if /**/ (rating < 400) color = '#808080'; // gray
+    else if (rating < 800) color = '#804000'; // brown
     else if (rating < 1200) color = '#008000'; // green
     else if (rating < 1600) color = '#00C0C0'; // cyan
     else if (rating < 2000) color = '#0000FF'; // blue
