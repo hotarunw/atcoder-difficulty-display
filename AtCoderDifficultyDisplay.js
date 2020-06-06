@@ -52,6 +52,7 @@
 
 })();
 
+// Webページの問題ステータス（実行時間制限とメモリ制限が書かれた部分）のHTMLオブジェクトを取得
 function getElementOfProblemStatus() {
     let element_status;
 
@@ -69,11 +70,11 @@ function getElementOfProblemStatus() {
     return element_status;
 }
 
-// return rating color
+// レーティングに対応する色のカラーコードを返す
 function colorRating(rating) {
     let color = '#FFFFFF'; // white
-    if /**/ (rating < 400) color = '#808080'; // gray
-    else if (rating < 800) color = '#804000'; // brown
+    if (rating < 400) color = '#808080'; //       gray
+    else if (rating < 800) color = '#804000'; //  brown
     else if (rating < 1200) color = '#008000'; // green
     else if (rating < 1600) color = '#00C0C0'; // cyan
     else if (rating < 2000) color = '#0000FF'; // blue
@@ -81,57 +82,54 @@ function colorRating(rating) {
     else if (rating < 2800) color = '#FF8000'; // orange
     else if (rating < 3200) color = '#FF0000'; // red
     else if (rating < 3600) color = '#E4E4E4'; // silver
-    else /*              */ color = '#FFD325'; // gold
+    else color = '#FFD325'; //                    gold
 
     return color;
 }
 
-// correct rating under 400
-// see https://qiita.com/anqooqie/items/92005e337a0d2569bdbd#%E6%80%A7%E8%B3%AA4-%E5%88%9D%E5%BF%83%E8%80%85%E3%81%B8%E3%81%AE%E6%85%88%E6%82%B2
+// レーティングを0以上に補正
+// 参考 https://qiita.com/anqooqie/items/92005e337a0d2569bdbd#%E6%80%A7%E8%B3%AA4-%E5%88%9D%E5%BF%83%E8%80%85%E3%81%B8%E3%81%AE%E6%85%88%E6%82%B2
 function correctLowerRating(rating) {
     if (rating >= 400) return rating;
-
     do {
         rating = 400 / Math.exp((400 - rating) / 400);
-
     } while (rating < 0);
-
     return rating;
 }
 
+// 難易度を表示する文字列を生成
 function generateDifficultyText(difficulty, is_experimental) {
-    let text = " / ";
+    // 難易度を0にして四捨五入
+    difficulty = correctLowerRating(difficulty);
+    difficulty = difficulty.toFixed();
 
-    difficulty = correctLowerRating(difficulty)
+    // テキストを生成
+    let difficultyText = "Difficulty: ";
+    if (is_experimental) difficultyText += "🧪";
+    difficultyText += difficulty;
 
-    // add difficulty value
-    let colored_text = "Difficulty: ";
-    if (is_experimental) colored_text += "🧪";
-    colored_text += difficulty.toFixed();
-
-    // color difficulty value
+    // 色つけ
     const color = colorRating(difficulty);
+    difficultyText = "<span style='color: " + color + ";'>" + difficultyText + "</span>";
 
-    text += "<span style='color: " + color + ";'>" + colored_text + "</span>";
-
-    return text;
+    return " / " + difficultyText;
 }
 
 function addDifficultyText(jsonData) {
-    let text = "";
-
-    // get id and problem
+    // URLから問題IDを取得
     const path = location.pathname.split("/");
     const id = path[path.length - 1];
+    // 問題データを取得
     const problem = jsonData[id];
 
-    // if problem don't exist in json
+    // 問題が存在しなければ終了
     if (problem == null || problem.difficulty == null) { return; }
 
-    // get Element of Problem Status
-    let status = getElementOfProblemStatus();
+    // 難易度を表示する文字列を生成
+    const text = generateDifficultyText(problem.difficulty, problem.is_experimental);
 
-    text += generateDifficultyText(problem.difficulty, problem.is_experimental);
+    // 問題ステータスのHTMLオブジェクトを探してtextを追加
+    let status = getElementOfProblemStatus();
     status.insertAdjacentHTML('beforeend', text);
 }
 
@@ -164,7 +162,7 @@ function addSubmissionStatusText(submissionData) {
         }
     }
 
-    // 提出状況を表す文字列を追加
+    // 提出状況を表す文字列を生成
     let text;
     if (contestAccepted) text = " / <span style='color: #5CB85C;'>★Accepted</span>";
     else if (accepted) text = " / <span style='color: #5CB85C;'>Accepted</span>";
