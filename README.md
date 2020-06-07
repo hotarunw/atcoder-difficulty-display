@@ -13,7 +13,7 @@
 
 [![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoderdifficultydisplay)
 
-![AtCoderDifficultyDisplay](AtCoderDifficultyDisplay/overview.png)
+![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderMyExtensions/master/AtCoderDifficultyDisplay/overview.png)
 
 [**AtCoder**](https://atcoder.jp/)の問題のページに[**AtCoder Problems**](https://kenkoooo.com/atcoder/)の難易度を表示します。
 
@@ -39,7 +39,7 @@ AtCoderの問題のページにAtCoder Problemsが推定した難易度と、そ
 
 提出状況を表す文章の意味は次です。
 
-![status](AtCoderDifficultyDisplay/status.png)
+![status](https://raw.githubusercontent.com/hotarunx/AtCoderMyExtensions/master/AtCoderDifficultyDisplay/status.png)
 
 *   緑色★Accepted : コンテスト中にACしました。
 *   緑色Accepted : ACしました。
