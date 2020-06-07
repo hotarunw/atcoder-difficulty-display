@@ -72,7 +72,7 @@ function getElementOfProblemStatus() {
 
 // レーティングに対応する色のカラーコードを返す
 function colorRating(rating) {
-    let color = '#FFFFFF'; // white
+    let color;
     if (rating < 400) color = '#808080'; //       gray
     else if (rating < 800) color = '#804000'; //  brown
     else if (rating < 1200) color = '#008000'; // green
@@ -80,11 +80,34 @@ function colorRating(rating) {
     else if (rating < 2000) color = '#0000FF'; // blue
     else if (rating < 2400) color = '#C0C000'; // yellow
     else if (rating < 2800) color = '#FF8000'; // orange
-    else if (rating < 3200) color = '#FF0000'; // red
-    else if (rating < 3600) color = '#E4E4E4'; // silver
-    else color = '#FFD325'; //                    gold
+    else color = '#FF0000'; // red
 
     return color;
+}
+
+// 難易度円→◒の文章を生成する
+function generateDifficultyCircle(rating) {
+
+    if (rating < 3200) {
+        // 色と円がどのぐらい満ちているかを計算
+        const color = colorRating(rating);
+        const percentFull = (rating % 400) * 100;
+
+        // ◒を生成
+        return "<span style = 'display: inline-block; border-radius: 50%; border-style: solid;border - width: 1px; margin - right: 5px; height: 12px; width: 12px;border - color: " + color + "; background: linear - gradient(to top, " + color + " 0 %, " + color + " " + percentFull + " %, rgba(0, 0, 0, 0) " + percentFull + " %, rgba(0, 0, 0, 0) 100 %); '></span>"
+
+    }
+    // 金銀銅は例外処理
+    else if (rating < 3600) {
+        return '<span style="border-color: rgb(150, 92, 44); background: linear-gradient(to right, rgb(150, 92, 44), rgb(255, 218, 189), rgb(150, 92, 44));"></span>';
+
+    } else if (rating < 4000) {
+        return '<span style="border-color: rgb(128, 128, 128); background: linear-gradient(to right, rgb(128, 128, 128), white, rgb(128, 128, 128));"></span>';
+
+    } else {
+        return '<span style="border-color: rgb(255, 215, 0); background: linear-gradient(to right, rgb(255, 215, 0), white, rgb(255, 215, 0));"></span>';
+
+    }
 }
 
 // レーティングを0以上に補正
