@@ -128,8 +128,9 @@ function generateDifficultyText(difficulty, is_experimental) {
 
     // テキストを生成
     let difficultyText = "Difficulty: ";
-    if (is_experimental) difficultyText += "🧪";
+    if (is_experimental) difficultyText = "🧪" + difficultyText;
     difficultyText += difficulty;
+    difficultyText += generateDifficultyCircle(difficulty);
 
     // 色つけ
     const color = colorRating(difficulty);
