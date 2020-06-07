@@ -2,22 +2,18 @@
 
 私が作成したAtCoderのユーザースクリプト（Greasemonkey scripts）です。
 
-- [AtCoderMyExtensions](#atcodermyextensions)
-  - [AtCoderDifficultyDisplay](#atcoderdifficultydisplay)
-    - [Description](#description)
-    - [Install](#install)
-    - [Note](#note)
-  - [License](#license)
+*   [AtCoderMyExtensions](#atcodermyextensions)
+    *   [AtCoderDifficultyDisplay](#atcoderdifficultydisplay)
+        *   [Description](#description)
+        *   [Install](#install)
+        *   [Note](#note)
+    *   [License](#license)
 
 ## AtCoderDifficultyDisplay
 
 [![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoderdifficultydisplay)
 
-![AtCoderDifficultyDisplay](AtCoderDifficultyDisplay.png)
-
-<!-- ↓GreasyFork用 の画像 GreasyForkのREADMEではこちらをコメント解除する -->
-
-<!-- ![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderMyExtensions/master/AtCoderDifficultyDisplay.png) -->
+![AtCoderDifficultyDisplay](AtCoderDifficultyDisplay/overview.png)
 
 [**AtCoder**](https://atcoder.jp/)の問題のページに[**AtCoder Problems**](https://kenkoooo.com/atcoder/)の難易度を表示します。
 
@@ -43,9 +39,7 @@ AtCoderの問題のページにAtCoder Problemsが推定した難易度と、そ
 
 提出状況を表す文章の意味は次です。
 
-![AtCoderDifficultyDisplayStatus](AtCoderDifficultyDisplayStatus.png)
-
-<!-- ![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderMyExtensions/master/AtCoderDifficultyDisplayStatus.png) -->
+![status](AtCoderDifficultyDisplay/status.png)
 
 *   緑色★Accepted : コンテスト中にACしました。
 *   緑色Accepted : ACしました。
