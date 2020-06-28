@@ -3,7 +3,7 @@
 // @namespace       https://github.com/hotarunx
 // @homepage        https://github.com/hotarunx/AtCoderDifficultyDisplay
 // @supportURL      https://github.com/hotarunx/AtCoderDifficultyDisplay/issues
-// @version         0.6
+// @version         0.6.1
 // @description     AtCoder Problemsの難易度を表示します。
 // @description:en  display a difficulty of AtCoder Problems.
 // @author          hotarunx
