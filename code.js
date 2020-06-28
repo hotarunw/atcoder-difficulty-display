@@ -34,6 +34,9 @@
     // false: 表示しない
     // -------------------------------------------------------------------------
 
+    // 問題のコンテストが開催中ならば全ての処理をスキップする。
+    if (isContestRunning()) return;
+
     // URL of Estimated difficulties of the problems
     const SUBMISSION_API = "https://kenkoooo.com/atcoder/atcoder-api/results?user=" + userScreenName;
     const SUBMISSIONS_DATASET = "https://kenkoooo.com/atcoder/resources/problem-models.json";
@@ -53,6 +56,23 @@
             });
 
 })();
+
+// 今開いている問題のコンテストが実行中かどうか判定する
+function isContestRunning() {
+    // コンテスト時間を取得
+    const start = Math.floor(Date.parse(startTime._i) / 1000);
+    const end = Math.floor(Date.parse(endTime._i) / 1000);
+
+    // 現在時間を取得
+    const time = Math.floor(Date.now() / 1000);
+
+    // 緩衝時間
+    const bufferTime = 10 * 60;
+
+    // 現在時間 > コンテスト終了時間+緩衝時間かどうか判定
+    if (time < end + bufferTime) return true;
+    return false;
+}
 
 // Webページの問題ステータス（実行時間制限とメモリ制限が書かれた部分）のHTMLオブジェクトを取得
 function getElementOfProblemStatus() {
