@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name            AtCoderDifficultyDisplay
+// @name            AtCoder Difficulty Display
 // @namespace       https://github.com/hotarunx
 // @homepage        https://github.com/hotarunx/AtCoderDifficultyDisplay
 // @supportURL      https://github.com/hotarunx/AtCoderDifficultyDisplay/issues

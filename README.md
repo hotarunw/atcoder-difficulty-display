@@ -1,6 +1,6 @@
 # README
 
-## AtCoderDifficultyDisplay
+## AtCoder Difficulty Display
 
 [![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoderdifficultydisplay)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-green)](https://github.com/hotarunx/AtCoderDifficultyDisplay)
@@ -36,7 +36,7 @@ AtCoderの問題のページにAtCoder Problemsが推定した難易度と、そ
 
 難易度と提出状況は非表示にできます。
 
-[Tampermonkey]→[ダッシュボード]→[AtCoderDifficultyDisplay]を選択してエディタを開き、
+[Tampermonkey]→[ダッシュボード]→[AtCoder Difficulty Display]を選択してエディタを開き、
 `displayDifficulty, displaySubmissionStatus`の値を変更してください。
 
 ## Note
