@@ -20,9 +20,9 @@
 
 (async function () {
     // 現在時間、コンテスト開始時間、コンテスト終了時間（UNIX時間 + 時差）
-    nowTime = Math.floor(Date.now() / 1000);
-    startTimeEpoch = Math.floor(Date.parse(startTime._i) / 1000);
-    endTimeEpoch = Math.floor(Date.parse(endTime._i) / 1000);
+    const nowTime = Math.floor(Date.now() / 1000);
+    const startTimeEpoch = Math.floor(Date.parse(startTime._i) / 1000);
+    const endTimeEpoch = Math.floor(Date.parse(endTime._i) / 1000);
 
     // URLから問題ID(ex: abc170_a)を取得
     const path = location.pathname.split("/");
