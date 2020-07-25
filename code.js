@@ -21,8 +21,8 @@
 (async function () {
     // 現在時間、コンテスト開始時間、コンテスト終了時間（UNIX時間 + 時差）
     nowTime = Math.floor(Date.now() / 1000);
-    startTime = Math.floor(Date.parse(startTime._i) / 1000);
-    endTime = Math.floor(Date.parse(endTime._i) / 1000);
+    startTimeEpoch = Math.floor(Date.parse(startTime._i) / 1000);
+    endTimeEpoch = Math.floor(Date.parse(endTime._i) / 1000);
 
     // URLから問題ID(ex: abc170_a)を取得
     const path = location.pathname.split("/");
@@ -33,29 +33,29 @@
     const problemTitle = document.getElementsByClassName("h2")[0];
 
     // 問題のコンテストが開催中ならば全ての処理をスキップする。
-    if (!isABS && !isContestOver(nowTime, endTime)) return;
+    if (!isABS && !isContestOver(nowTime, endTimeEpoch)) return;
 
-    const estimatedDifficulties = await getEstimatedDifficulties(nowTime, endTime);
-    const userSubmissions = await getUserSubmissions(nowTime, endTime);
+    const estimatedDifficulties = await getEstimatedDifficulties(nowTime, endTimeEpoch);
+    const userSubmissions = await getUserSubmissions(nowTime, endTimeEpoch);
 
     changeProblemTitle(problemId, estimatedDifficulties, problemTitle);
     addDifficultyText(problemId, estimatedDifficulties, problemStatus);
     if (!isABS)
-        addIsSolvedText(problemId, userSubmissions, problemStatus, startTime, endTime);
+        addIsSolvedText(problemId, userSubmissions, problemStatus, startTimeEpoch, endTimeEpoch);
 })();
 
 // コンテストが終了した？
-function isContestOver(nowTime, endTime) {
+function isContestOver(nowTime, endTimeEpoch) {
     // 緩衝時間(10分)
     const bufferTime = 10 * 60;
 
     // 現在時間 > コンテスト終了時間 + 緩衝時間？
-    if (nowTime > endTime + bufferTime) return true;
+    if (nowTime > endTimeEpoch + bufferTime) return true;
     return false;
 }
 
 // 推定難易度を読み込む
-async function getEstimatedDifficulties(nowTime, endTime) {
+async function getEstimatedDifficulties(nowTime, endTimeEpoch) {
     const URL = "https://kenkoooo.com/atcoder/resources/problem-models.json";
     const KEY_DATA = "atcoderDifficultyDisplayEstimatedDifficulties";
     const KEY_LASTFETCH = "atcoderDifficultyDisplayEstimatedDifficultiesLastFetched";
@@ -72,7 +72,7 @@ async function getEstimatedDifficulties(nowTime, endTime) {
     let need2Fetch = false;
     if (localStorage.getItem(KEY_LASTFETCH) == null) need2Fetch = true;
     else if (nowTime >= 24 * 60 * 60 + localStorage.getItem(KEY_LASTFETCH)) need2Fetch = true;
-    else if (nowTime >= 10 * 60 + localStorage.getItem(KEY_LASTFETCH) && nowTime - endTime > 0 && nowTime - endTime <= 60 * 60) need2Fetch = true;
+    else if (nowTime >= 10 * 60 + localStorage.getItem(KEY_LASTFETCH) && nowTime - endTimeEpoch > 0 && nowTime - endTimeEpoch <= 60 * 60) need2Fetch = true;
 
     if (need2Fetch) {
         alert("fetch diff!");
@@ -87,7 +87,7 @@ async function getEstimatedDifficulties(nowTime, endTime) {
 }
 
 // 提出一覧を読み込む
-async function getUserSubmissions(nowTime, endTime) {
+async function getUserSubmissions(nowTime, endTimeEpoch) {
     const URL = "https://kenkoooo.com/atcoder/atcoder-api/results?user=" + userScreenName;
     const KEY_DATA = "atcoderDifficultyDisplayUserSubmissions";
     const KEY_LASTFETCH = "atcoderDifficultyDisplayUserSubmissionsLastFetched";
@@ -104,7 +104,7 @@ async function getUserSubmissions(nowTime, endTime) {
     let need2Fetch = false;
     if (localStorage.getItem(KEY_LASTFETCH) == null) need2Fetch = true;
     else if (nowTime >= 1 * 60 * 60 + localStorage.getItem(KEY_LASTFETCH)) need2Fetch = true;
-    else if (nowTime >= 10 * 60 + localStorage.getItem(KEY_LASTFETCH) && nowTime - endTime > 0 && nowTime - endTime <= 60 * 60) need2Fetch = true;
+    else if (nowTime >= 10 * 60 + localStorage.getItem(KEY_LASTFETCH) && nowTime - endTimeEpoch > 0 && nowTime - endTimeEpoch <= 60 * 60) need2Fetch = true;
 
     if (need2Fetch) {
         alert("fetch submissions!");
@@ -223,7 +223,7 @@ function addDifficultyText(problemId, estimatedDifficulties, problemStatus) {
 }
 
 // AC、コンテスト中AC、ペナルティ数、AC時間を計算
-function searchSubmissionsResult(submissions, endTime) {
+function searchSubmissionsResult(submissions, endTimeEpoch) {
     const nonPenaltyJudge = ["AC", "CE", "IE", "WJ", "WR"];
     submissions.sort((a, b) => a.epoch_second - b.epoch_second);
 
@@ -233,7 +233,7 @@ function searchSubmissionsResult(submissions, endTime) {
     let acceptedTime = false;
 
     for (const item of submissions) {
-        const duringContest = item.epoch_second <= endTime;
+        const duringContest = item.epoch_second <= endTimeEpoch;
 
         if (item.result == "AC") {
             accepted = true;
@@ -256,10 +256,10 @@ function epochTime2HHMM(time) {
 }
 
 // ACしたか、AC時間、ペナルティ数を表示
-function addIsSolvedText(problemId, userSubmissions, problemStatus, startTime, endTime) {
+function addIsSolvedText(problemId, userSubmissions, problemStatus, startTimeEpoch, endTimeEpoch) {
     const submissions = userSubmissions.filter(function (item, index) { if (item.problem_id == problemId) return true; });
     const submitted = submissions.length > 0;
-    const { accepted, acceptedDuringContest, penalties, acceptedTime } = searchSubmissionsResult(submissions, endTime);
+    const { accepted, acceptedDuringContest, penalties, acceptedTime } = searchSubmissionsResult(submissions, endTimeEpoch);
 
     let text = "Is Solved: ";
     if (acceptedDuringContest) text += "✅ (During Contest)";
@@ -268,7 +268,7 @@ function addIsSolvedText(problemId, userSubmissions, problemStatus, startTime, e
     else text += "❌ (Not Submitted)";
 
     if (acceptedDuringContest)
-        text += " <span style='font-size: x-small; color: grey;'>" + epochTime2HHMM(acceptedTime - startTime) + "</span> ";
+        text += " <span style='font-size: x-small; color: grey;'>" + epochTime2HHMM(acceptedTime - startTimeEpoch) + "</span> ";
 
     if (penalties > 0)
         text += " <span style='font-size: x-small; color: red;'>(" + penalties + ")</span> ";
