@@ -2,7 +2,7 @@
 
 ## AtCoder Difficulty Display
 
-[![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoderdifficultydisplay)
+[![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoder-difficulty-display)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-green)](https://github.com/hotarunx/AtCoderDifficultyDisplay)
 
 ![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/overview.png)
@@ -11,33 +11,28 @@
 
 ## Description
 
-AtCoderの問題のページにAtCoder Problemsが推定した難易度と、その問題を提出したかどうかを表示します。
+AtCoderの問題のページにAtCoder Problemsが推定した難易度と、その問題を正解したかどうかを表示します。
 
 実験的手法で推定された難易度には、AtCoder Problemsと同様に「🧪」をつけています。
 難易度については[AtCoder Problems の難易度推定について](http://pepsin-amylase.hatenablog.com/entry/atcoder-problems-difficulty)を参考にしてください。
 
-このユーザースクリプトはAtCoder ProblemsのAPIを使用しています。
-コードを提出してからAtCoder Problemsがクロールして反映するまでには時間差があるので、提出状況の反映は少し遅れます。
+正解したかなどの提出状況が4種類で表されます。
 
-提出状況というのは次の5通りの分類で表されます。
+* Is Solved: ✅ (During Contest): コンテスト中に正解しました。
+* Is Solved: ✅ (After Contest): 正解しました。
+* Is Solved: ❌ (Not Passed): 提出しましたが正解はしていません。
+* Is Solved: ❌ (Not Submitted): 提出していません。
 
-![status](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/status.png)
+さらに、コンテスト中のペナルティ数と得点した提出時間が表示されます。
 
-*   緑色★Accepted : コンテスト中にACしました。
-*   緑色Accepted : ACしました。
-*   黄色★Trying : コンテスト中にのみ提出しました。
-*   黄色Trying : 提出しました。
-*   黒色Trying : 提出していません。
+提出状況は1時間毎に取得しているため、反映は少し遅れます。
+
+**AtCoder Beginners Selection**の問題では提出状況は表示されません。
 
 ## Install
 
-1.  [**Tampermonkey**](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja)などのユーザースクリプトマネージャをインストールします。
-2.  [![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoderdifficultydisplay)からユーザースクリプトをインストールします。
-
-難易度と提出状況は非表示にできます。
-
-[Tampermonkey]→[ダッシュボード]→[AtCoder Difficulty Display]を選択してエディタを開き、
-`displayDifficulty, displaySubmissionStatus`の値を変更してください。
+1. [**Tampermonkey**](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja)などのユーザースクリプトマネージャをインストールします。
+2. [![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoder-difficulty-display)からユーザースクリプトをインストールします。
 
 ## Note
 
