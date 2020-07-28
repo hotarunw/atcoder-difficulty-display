@@ -59,6 +59,7 @@ async function getEstimatedDifficulties(nowTime, endTimeEpoch) {
     const URL = "https://kenkoooo.com/atcoder/resources/problem-models.json";
     const KEY_DATA = "atcoderDifficultyDisplayEstimatedDifficulties";
     const KEY_LASTFETCH = "atcoderDifficultyDisplayEstimatedDifficultiesLastFetched";
+    const fetchTime = parseInt(localStorage.getItem(KEY_LASTFETCH));
 
     let jsondata = JSON.parse(localStorage.getItem(KEY_DATA));
 
@@ -70,9 +71,9 @@ async function getEstimatedDifficulties(nowTime, endTimeEpoch) {
     // * 推定難易度を取得して10分後かつコンテスト終了後から1時間以内
 
     let need2Fetch = false;
-    if (localStorage.getItem(KEY_LASTFETCH) == null) need2Fetch = true;
-    else if (nowTime >= 24 * 60 * 60 + localStorage.getItem(KEY_LASTFETCH)) need2Fetch = true;
-    else if (nowTime >= 10 * 60 + localStorage.getItem(KEY_LASTFETCH) && nowTime - endTimeEpoch > 0 && nowTime - endTimeEpoch <= 60 * 60) need2Fetch = true;
+    if (isNaN(fetchTime)) need2Fetch = true;
+    else if (nowTime >= 24 * 60 * 60 + fetchTime) need2Fetch = true;
+    else if (nowTime >= 10 * 60 + fetchTime && nowTime - endTimeEpoch > 0 && nowTime - endTimeEpoch <= 60 * 60) need2Fetch = true;
 
     if (need2Fetch) {
         alert("fetch diff!");
@@ -91,6 +92,7 @@ async function getUserSubmissions(nowTime, endTimeEpoch) {
     const URL = "https://kenkoooo.com/atcoder/atcoder-api/results?user=" + userScreenName;
     const KEY_DATA = "atcoderDifficultyDisplayUserSubmissions";
     const KEY_LASTFETCH = "atcoderDifficultyDisplayUserSubmissionsLastFetched";
+    const fetchTime = parseInt(localStorage.getItem(KEY_LASTFETCH));
 
     let jsondata = JSON.parse(localStorage.getItem(KEY_DATA));
 
@@ -102,9 +104,9 @@ async function getUserSubmissions(nowTime, endTimeEpoch) {
     // * 提出集を取得して10分後かつコンテスト終了後から1時間以内
 
     let need2Fetch = false;
-    if (localStorage.getItem(KEY_LASTFETCH) == null) need2Fetch = true;
-    else if (nowTime >= 1 * 60 * 60 + localStorage.getItem(KEY_LASTFETCH)) need2Fetch = true;
-    else if (nowTime >= 10 * 60 + localStorage.getItem(KEY_LASTFETCH) && nowTime - endTimeEpoch > 0 && nowTime - endTimeEpoch <= 60 * 60) need2Fetch = true;
+    if (isNaN(fetchTime)) need2Fetch = true;
+    else if (nowTime >= 1 * 60 * 60 + fetchTime) need2Fetch = true;
+    else if (nowTime >= 10 * 60 + fetchTime && nowTime - endTimeEpoch > 0 && nowTime - endTimeEpoch <= 60 * 60) need2Fetch = true;
 
     if (need2Fetch) {
         alert("fetch submissions!");
