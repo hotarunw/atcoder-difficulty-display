@@ -188,12 +188,13 @@ function changeProblemTitle(problemId, estimatedDifficulties, problemTitle) {
     if (problem.difficulty != null) {
         const difficulty = correctLowerRating(problem.difficulty).toFixed();
         problemTitle.style.color = colorRating(difficulty);
-        if (problem.is_experimental) problemTitle.insertAdjacentHTML("afterbegin", "🧪");
-        problemTitle.insertAdjacentHTML("afterbegin", generateDifficultyCircle(difficulty, 20));
+        if (problem.is_experimental) problemTitle.insertAdjacentHTML("beforebegin", "🧪");
+        problemTitle.insertAdjacentHTML("beforebegin", generateDifficultyCircle(difficulty, 20));
     }
     else {
+        problemTitle.style.color = "#17a2b8";
         const unavailableCircle = '<span style="margin-right: 5px;font-size: 24px;color: #fff;background-color: #17a2b8;padding-right: .6em;padding-left: .6em;border-radius: 10rem;display: inline-block;padding: .25em .4em;font-weight: 700;line-height: 1;text-align: center;white-space: nowrap;vertical-align: initial;transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;box-sizing: border-box;">?</span>';
-        problemTitle.insertAdjacentHTML("afterbegin", unavailableCircle);
+        problemTitle.insertAdjacentHTML("beforebegin", unavailableCircle);
     }
 }
 
