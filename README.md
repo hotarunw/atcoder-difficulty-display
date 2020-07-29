@@ -18,10 +18,10 @@ AtCoderの問題のページにAtCoder Problemsが推定した難易度と、そ
 
 正解したかなどの提出状況が4種類で表されます。
 
-* Is Solved: ✅ (During Contest): コンテスト中に正解しました。
-* Is Solved: ✅ (After Contest): 正解しました。
-* Is Solved: ❌ (Not Passed): 提出しましたが正解はしていません。
-* Is Solved: ❌ (Not Submitted): 提出していません。
+* Is Solved: ✓（背景緑）: コンテスト中に正解しました。
+* Is Solved: ✓（緑）: 正解しました。
+* Is Solved: ✘（黄色）: 提出しましたが正解はしていません。
+* Is Solved: ✘（灰色）: 提出していません。
 
 さらに、コンテスト中のペナルティ数と得点した提出時間が表示されます。
 
