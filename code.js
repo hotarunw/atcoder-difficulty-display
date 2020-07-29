@@ -266,10 +266,10 @@ function addIsSolvedText(problemId, userSubmissions, problemStatus, startTimeEpo
     const { accepted, acceptedDuringContest, penalties, acceptedTime } = searchSubmissionsResult(submissions, endTimeEpoch);
 
     let text = "Is Solved: ";
-    if (acceptedDuringContest) text += "✅ (During Contest)";
-    else if (accepted) text += "✅ (After Contest)";
-    else if (submitted) text += "❌ (Not Passed)";
-    else text += "❌ (Not Submitted)";
+    if (acceptedDuringContest) text += "<span style='font-weight: bold; color: green;'><u>✓</u></span>";
+    else if (accepted) text += "<span style='font-weight: bold; color: green;'>✓</span>";
+    else if (submitted) text += "<span style='font-weight: bold; color: orange;'>✘</span>";
+    else text += "<span style='font-weight: bold; color: gray;'>✘</span>";
 
     if (acceptedDuringContest)
         text += " <span style='font-size: x-small; color: grey;'>" + epochTime2HHMM(acceptedTime - startTimeEpoch) + "</span> ";
