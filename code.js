@@ -76,8 +76,6 @@ async function getEstimatedDifficulties(nowTime, endTimeEpoch) {
     else if (nowTime >= 10 * 60 + fetchTime && nowTime - endTimeEpoch > 0 && nowTime - endTimeEpoch <= 60 * 60) need2Fetch = true;
 
     if (need2Fetch) {
-        alert("fetch diff!");
-
         // 推定難易度をAtCoder Problemsから取得する
         jsondata = await (await (fetch(URL))).json();
         localStorage.setItem(KEY_DATA, JSON.stringify(jsondata));
@@ -109,7 +107,6 @@ async function getUserSubmissions(nowTime, endTimeEpoch) {
     else if (nowTime >= 10 * 60 + fetchTime && nowTime - endTimeEpoch > 0 && nowTime - endTimeEpoch <= 60 * 60) need2Fetch = true;
 
     if (need2Fetch) {
-        alert("fetch submissions!");
         // 提出集をAtCoder Problemsから取得する
         jsondata = await (await (fetch(URL))).json();
         localStorage.setItem(KEY_DATA, JSON.stringify(jsondata));
@@ -194,6 +191,10 @@ function changeProblemTitle(problemId, estimatedDifficulties, problemTitle) {
         if (problem.is_experimental) problemTitle.insertAdjacentHTML("afterbegin", "🧪");
         problemTitle.insertAdjacentHTML("afterbegin", generateDifficultyCircle(difficulty, 20));
     }
+    else {
+        const unavailableCircle = '<span style="margin-right: 5px;font-size: 24px;color: #fff;background-color: #17a2b8;padding-right: .6em;padding-left: .6em;border-radius: 10rem;display: inline-block;padding: .25em .4em;font-weight: 700;line-height: 1;text-align: center;white-space: nowrap;vertical-align: initial;transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;box-sizing: border-box;">?</span>';
+        problemTitle.insertAdjacentHTML("afterbegin", unavailableCircle);
+    }
 }
 
 // 推定難易度文字列を生成
@@ -221,7 +222,7 @@ function addDifficultyText(problemId, estimatedDifficulties, problemStatus) {
         const text = generateDifficultyText(problem.difficulty, problem.is_experimental);
         problemStatus.insertAdjacentHTML('beforeend', " / " + text);
     } else
-        problemStatus.insertAdjacentHTML('beforeend', " / Difficulty: Unavailable");
+        problemStatus.insertAdjacentHTML('beforeend', " / Difficulty: <span style='font-weight: bold; color: #17a2b8;'>Unavailable</span>");
 }
 
 // AC、コンテスト中AC、ペナルティ数、AC時間を計算
