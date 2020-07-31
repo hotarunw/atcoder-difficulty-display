@@ -7,7 +7,8 @@
 // @description     AtCoder Problemsの難易度を表示します。
 // @description:en  display a difficulty of AtCoder Problems.
 // @author          hotarunx
-// @match           https://atcoder.jp/contests/*/tasks/*
+// @match           https://atcoder.jp/contests/*/tasks*
+// @match           https://atcoder.jp/contests/*/submissions*
 // @grant           none
 // @connect         https://kenkoooo.com/atcoder/resources/*
 // @connect         https://kenkoooo.com/atcoder/atcoder-api/*
@@ -29,9 +30,6 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
     const problemId = path[path.length - 1];
     const isABS = path[path.length - 3] == "abs";
 
-    const problemStatus = getElementOfProblemStatus();
-    const problemTitle = document.getElementsByClassName("h2")[0];
-
     // 問題のコンテストが開催中ならば全ての処理をスキップする。
     if (!isABS && !isContestOver(nowTime)) return;
 
@@ -44,10 +42,30 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
     const estimatedDifficulties = await fetchAPIData(diffURL, diffKey, 24 * 60 * 60);
     const userSubmissions = await fetchAPIData(submissionsURL, submissionsKey, 1 * 60 * 60);
 
-    changeProblemTitle(problemId, estimatedDifficulties, problemTitle);
-    addDifficultyText(problemId, estimatedDifficulties, problemStatus);
-    if (!isABS)
-        addIsSolvedText(problemId, userSubmissions, problemStatus);
+
+    if (path[path.length - 2] == "tasks") {
+        const problemStatus = getElementOfProblemStatus();
+        const problemTitle = document.getElementsByClassName("h2")[0];
+
+        changeProblemTitle(problemId, estimatedDifficulties, problemTitle);
+        addDifficultyText(problemId, estimatedDifficulties, problemStatus);
+        if (!isABS)
+            addIsSolvedText(problemId, userSubmissions, problemStatus);
+    }
+
+    const as = document.getElementsByTagName("a");
+    for (const item of as) {
+        if (item.text.length <= 2) continue;
+        const h = item.getAttribute("href");
+        if (typeof (h) != "string") continue;
+        const hpath = h.split("/");
+
+        if (hpath[hpath.length - 2] == "tasks") {
+            const hProblemId = hpath[hpath.length - 1];
+            changeProblemTitle(hProblemId, estimatedDifficulties, item, 12);
+        }
+
+    }
 })();
 
 // コンテストが終了した？
@@ -129,18 +147,18 @@ function generateDifficultyCircle(rating, size = 12) {
         const percentFull = (rating % 400) / 400 * 100;
 
         // ◒を生成
-        return "<span style = 'display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: bottom; height: " + size + "px; width: " + size + "px;border-color: " + color + "; background: linear-gradient(to top, " + color + " 0%, " + color + " " + percentFull + "%, rgba(0, 0, 0, 0) " + percentFull + "%, rgba(0, 0, 0, 0) 100%); '></span>";
+        return "<span style = 'display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: initial; height: " + size + "px; width: " + size + "px;border-color: " + color + "; background: linear-gradient(to top, " + color + " 0%, " + color + " " + percentFull + "%, rgba(0, 0, 0, 0) " + percentFull + "%, rgba(0, 0, 0, 0) 100%); '></span>";
 
     }
     // 金銀銅は例外処理
     else if (rating < 3600) {
-        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: bottom; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(150, 92, 44); background: linear-gradient(to right, rgb(150, 92, 44), rgb(255, 218, 189), rgb(150, 92, 44));"></span>';
+        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: initial; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(150, 92, 44); background: linear-gradient(to right, rgb(150, 92, 44), rgb(255, 218, 189), rgb(150, 92, 44));"></span>';
 
     } else if (rating < 4000) {
-        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: bottom; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(128, 128, 128); background: linear-gradient(to right, rgb(128, 128, 128), white, rgb(128, 128, 128));"></span>';
+        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: initial; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(128, 128, 128); background: linear-gradient(to right, rgb(128, 128, 128), white, rgb(128, 128, 128));"></span>';
 
     } else {
-        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: bottom; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(255, 215, 0); background: linear-gradient(to right, rgb(255, 215, 0), white, rgb(255, 215, 0));"></span>';
+        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: initial; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(255, 215, 0); background: linear-gradient(to right, rgb(255, 215, 0), white, rgb(255, 215, 0));"></span>';
 
     }
 }
@@ -155,7 +173,7 @@ function correctLowerRating(rating) {
     return rating;
 }
 
-function changeProblemTitle(problemId, estimatedDifficulties, problemTitle) {
+function changeProblemTitle(problemId, estimatedDifficulties, problemTitle, size = 30) {
     const problem = estimatedDifficulties[problemId];
 
     // 問題が存在しなければ終了
@@ -164,12 +182,12 @@ function changeProblemTitle(problemId, estimatedDifficulties, problemTitle) {
         const difficulty = correctLowerRating(problem.difficulty).toFixed();
         problemTitle.style.color = colorRating(difficulty);
         if (problem.is_experimental) problemTitle.insertAdjacentHTML("afterbegin", "🧪");
-        problemTitle.insertAdjacentHTML("beforebegin", generateDifficultyCircle(difficulty, 30));
+        problemTitle.insertAdjacentHTML("beforebegin", generateDifficultyCircle(difficulty, size));
     }
     else {
         problemTitle.style.color = "#17a2b8";
-        const unavailableCircle = '<span style="margin-right: 5px;font-size: 24px;color: #fff;background-color: #17a2b8;padding-right: .6em;padding-left: .6em;border-radius: 10rem;display: inline-block;padding: .25em .4em;font-weight: 700;line-height: 1;text-align: center;white-space: nowrap;vertical-align: initial;transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;box-sizing: border-box;">?</span>';
-        problemTitle.insertAdjacentHTML("beforebegin", unavailableCircle);
+        const unavailableCircle = "<span style='font-weight: bold; color: white;background:#17a2b8; border-radius: 50%;padding:0.2rem;'>?</span>";
+        problemTitle.insertAdjacentHTML("afterbegin", unavailableCircle);
     }
 }
 
