@@ -51,12 +51,12 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
 })();
 
 // コンテストが終了した？
-function isContestOver(nowTime) {
+function isContestOver(time) {
     // 緩衝時間(20分)
     const bufferTime = 20 * 60;
 
     // 現在時間 > コンテスト終了時間 + 緩衝時間？
-    if (nowTime > contestEndTime + bufferTime) return true;
+    if (time > contestEndTime + bufferTime) return true;
     return false;
 }
 
