@@ -154,18 +154,18 @@ function generateDifficultyCircle(rating, size = 12) {
         const percentFull = (rating % 400) / 400 * 100;
 
         // ◒を生成
-        return "<span style = 'display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; height: " + size + "px; width: " + size + "px;border-color: " + color + "; background: linear-gradient(to top, " + color + " 0%, " + color + " " + percentFull + "%, rgba(0, 0, 0, 0) " + percentFull + "%, rgba(0, 0, 0, 0) 100%); '></span>";
+        return "<span style = 'display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: bottom; height: " + size + "px; width: " + size + "px;border-color: " + color + "; background: linear-gradient(to top, " + color + " 0%, " + color + " " + percentFull + "%, rgba(0, 0, 0, 0) " + percentFull + "%, rgba(0, 0, 0, 0) 100%); '></span>";
 
     }
     // 金銀銅は例外処理
     else if (rating < 3600) {
-        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(150, 92, 44); background: linear-gradient(to right, rgb(150, 92, 44), rgb(255, 218, 189), rgb(150, 92, 44));"></span>';
+        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: bottom; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(150, 92, 44); background: linear-gradient(to right, rgb(150, 92, 44), rgb(255, 218, 189), rgb(150, 92, 44));"></span>';
 
     } else if (rating < 4000) {
-        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(128, 128, 128); background: linear-gradient(to right, rgb(128, 128, 128), white, rgb(128, 128, 128));"></span>';
+        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: bottom; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(128, 128, 128); background: linear-gradient(to right, rgb(128, 128, 128), white, rgb(128, 128, 128));"></span>';
 
     } else {
-        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(255, 215, 0); background: linear-gradient(to right, rgb(255, 215, 0), white, rgb(255, 215, 0));"></span>';
+        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: bottom; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(255, 215, 0); background: linear-gradient(to right, rgb(255, 215, 0), white, rgb(255, 215, 0));"></span>';
 
     }
 }
@@ -188,8 +188,8 @@ function changeProblemTitle(problemId, estimatedDifficulties, problemTitle) {
     if (problem.difficulty != null) {
         const difficulty = correctLowerRating(problem.difficulty).toFixed();
         problemTitle.style.color = colorRating(difficulty);
-        if (problem.is_experimental) problemTitle.insertAdjacentHTML("beforebegin", "🧪");
-        problemTitle.insertAdjacentHTML("beforebegin", generateDifficultyCircle(difficulty, 20));
+        if (problem.is_experimental) problemTitle.insertAdjacentHTML("afterbegin", "🧪");
+        problemTitle.insertAdjacentHTML("beforebegin", generateDifficultyCircle(difficulty, 30));
     }
     else {
         problemTitle.style.color = "#17a2b8";
