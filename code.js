@@ -100,7 +100,7 @@ async function fetchAPIData(url, keyData, timeInterval) {
 
     // データを取得する
     if (need2Fetch) {
-        alert(keyData + "is fetched.");
+        // alert(keyData + "is fetched.");
         jsondata = await (await (fetch(url))).json();
         localStorage.setItem(keyData, JSON.stringify(jsondata));
         localStorage.setItem(keyLastFetch, nowTime);
