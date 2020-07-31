@@ -201,7 +201,7 @@ function addDifficultyText(problemId, estimatedDifficulties, problemStatus) {
         problemStatus.insertAdjacentHTML('beforeend', " / Difficulty: <span style='font-weight: bold; color: #17a2b8;'>Unavailable</span>");
 }
 
-// AC、コンテスト中AC、ペナルティ数、AC時間を計算
+// AC、コンテスト中AC、ペナルティ数、AC時間、最大得点、コンテスト中最大得点を計算
 function searchSubmissionsResult(submissions) {
     const nonPenaltyJudge = ["AC", "CE", "IE", "WJ", "WR"];
     submissions.sort((a, b) => a.epoch_second - b.epoch_second);
@@ -210,6 +210,8 @@ function searchSubmissionsResult(submissions) {
     let acceptedDuringContest = false;
     let penalties = 0;
     let acceptedTime = false;
+    let maxPoint = 0;
+    let maxPointDuringContest = 0;
 
     for (const item of submissions) {
         const duringContest = item.epoch_second <= contestEndTime;
@@ -225,9 +227,13 @@ function searchSubmissionsResult(submissions) {
         if (!accepted && duringContest && !nonPenaltyJudge.includes(item.result)) {
             penalties++;
         }
+
+        maxPoint = Math.max(item.point, maxPoint);
+        if (duringContest)
+            maxPointDuringContest = Math.max(item.point, maxPointDuringContest);
     }
 
-    return { accepted, acceptedDuringContest, penalties, acceptedTime };
+    return { accepted, acceptedDuringContest, penalties, acceptedTime, maxPoint, maxPointDuringContest };
 }
 
 function epochTime2HHMM(time) {
@@ -238,7 +244,7 @@ function epochTime2HHMM(time) {
 function addIsSolvedText(problemId, userSubmissions, problemStatus) {
     const submissions = userSubmissions.filter(function (item, index) { if (item.problem_id == problemId) return true; });
     const submitted = submissions.length > 0;
-    const { accepted, acceptedDuringContest, penalties, acceptedTime } = searchSubmissionsResult(submissions);
+    const { accepted, acceptedDuringContest, penalties, acceptedTime, maxPoint, maxPointDuringContest } = searchSubmissionsResult(submissions);
 
     let text = "Is Solved: ";
     if (acceptedDuringContest) text += "<span style='font-weight: bold; color: white; background: green; border-radius: 20%;'>✓</span>";
@@ -251,6 +257,12 @@ function addIsSolvedText(problemId, userSubmissions, problemStatus) {
 
     if (penalties > 0)
         text += " <span style='font-size: x-small; color: red;'>(" + penalties + ")</span> ";
+
+    if (maxPoint >= 10000) {
+        text += " <span style='font-size: x-small; color: orange;'>" + maxPoint + "</span> ";
+        if (maxPointDuringContest != maxPoint)
+            text += " <span style='font-size: x-small; color: orange;'>(" + maxPointDuringContest + ")</span> ";
+    }
 
     problemStatus.insertAdjacentHTML('beforeend', " / " + text);
 }
