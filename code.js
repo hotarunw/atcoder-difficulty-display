@@ -35,8 +35,14 @@
     // 問題のコンテストが開催中ならば全ての処理をスキップする。
     if (!isABS && !isContestOver(nowTime, endTimeEpoch)) return;
 
-    const estimatedDifficulties = await getEstimatedDifficulties(nowTime, endTimeEpoch);
-    const userSubmissions = await getUserSubmissions(nowTime, endTimeEpoch);
+    const diffURL = "https://kenkoooo.com/atcoder/resources/problem-models.json";
+    const diffKey = "atcoderDifficultyDisplayEstimatedDifficulties";
+
+    const submissionsURL = "https://kenkoooo.com/atcoder/atcoder-api/results?user=" + userScreenName;
+    const submissionsKey = "atcoderDifficultyDisplayUserSubmissions";
+
+    const estimatedDifficulties = await fetchAPIData(diffURL, diffKey, nowTime, endTimeEpoch, 24 * 60 * 60);
+    const userSubmissions = await fetchAPIData(submissionsURL, submissionsKey, nowTime, endTimeEpoch, 1 * 60 * 60);
 
     changeProblemTitle(problemId, estimatedDifficulties, problemTitle);
     addDifficultyText(problemId, estimatedDifficulties, problemStatus);
@@ -46,71 +52,40 @@
 
 // コンテストが終了した？
 function isContestOver(nowTime, endTimeEpoch) {
-    // 緩衝時間(10分)
-    const bufferTime = 10 * 60;
+    // 緩衝時間(20分)
+    const bufferTime = 20 * 60;
 
     // 現在時間 > コンテスト終了時間 + 緩衝時間？
     if (nowTime > endTimeEpoch + bufferTime) return true;
     return false;
 }
 
-// 推定難易度を読み込む
-async function getEstimatedDifficulties(nowTime, endTimeEpoch) {
-    const URL = "https://kenkoooo.com/atcoder/resources/problem-models.json";
-    const KEY_DATA = "atcoderDifficultyDisplayEstimatedDifficulties";
-    const KEY_LASTFETCH = "atcoderDifficultyDisplayEstimatedDifficultiesLastFetched";
-    const fetchTime = parseInt(localStorage.getItem(KEY_LASTFETCH));
+// APIサーバからデータを取得してlocalStorageに保存して返す
+// 直前の取得から時間が経過していないならば保存したデータを返す
+async function fetchAPIData(url, keyData, nowTime, endTimeEpoch, timeInterval) {
+    const keyLastFetch = keyData + "lastFetchedAt";
+    let jsondata = JSON.parse(localStorage.getItem(keyData));
+    const fetchTime = parseInt(localStorage.getItem(keyLastFetch));
 
-    let jsondata = JSON.parse(localStorage.getItem(KEY_DATA));
+    // コンテストが終了していないならばデータ取得はしない
+    if (!isContestOver(nowTime, endTimeEpoch)) return jsondata;
 
-    // 推定難易度をlocalStorageから読み込む。もしくはAtCoder Problemsから取得する。
-
-    // 次の場合は推定難易度をAtCoder Problemsから取得する
-    // * 推定難易度が保存されていない
-    // * 推定難易度を取得して1日経過した
-    // * 推定難易度を取得して10分後かつコンテスト終了後から1時間以内
-
-    let need2Fetch = false;
-    if (isNaN(fetchTime)) need2Fetch = true;
-    else if (nowTime >= 24 * 60 * 60 + fetchTime) need2Fetch = true;
-    else if (nowTime >= 10 * 60 + fetchTime && nowTime - endTimeEpoch > 0 && nowTime - endTimeEpoch <= 60 * 60) need2Fetch = true;
-
-    if (need2Fetch) {
-        // 推定難易度をAtCoder Problemsから取得する
-        jsondata = await (await (fetch(URL))).json();
-        localStorage.setItem(KEY_DATA, JSON.stringify(jsondata));
-        localStorage.setItem(KEY_LASTFETCH, nowTime);
-    }
-
-    return jsondata;
-}
-
-// 提出一覧を読み込む
-async function getUserSubmissions(nowTime, endTimeEpoch) {
-    const URL = "https://kenkoooo.com/atcoder/atcoder-api/results?user=" + userScreenName;
-    const KEY_DATA = "atcoderDifficultyDisplayUserSubmissions";
-    const KEY_LASTFETCH = "atcoderDifficultyDisplayUserSubmissionsLastFetched";
-    const fetchTime = parseInt(localStorage.getItem(KEY_LASTFETCH));
-
-    let jsondata = JSON.parse(localStorage.getItem(KEY_DATA));
-
-    // 提出集をlocalStorageから読み込む。もしくはAtCoder Problemsから取得する。
-
-    // 次の場合は提出集をAtCoder Problemsから取得する
-    // * 提出集が保存されていない
-    // * 提出集を取得して1時間経過した
-    // * 提出集を取得して10分後かつコンテスト終了後から1時間以内
+    // 次のいずれかを満たすならば取得する
+    // * データが保存されていない
+    // * 直前の取得からtimeInterval経過した
+    // * 直前の取得時にコンテストが終了していなかった
 
     let need2Fetch = false;
     if (isNaN(fetchTime)) need2Fetch = true;
-    else if (nowTime >= 1 * 60 * 60 + fetchTime) need2Fetch = true;
-    else if (nowTime >= 10 * 60 + fetchTime && nowTime - endTimeEpoch > 0 && nowTime - endTimeEpoch <= 60 * 60) need2Fetch = true;
+    else if (nowTime >= timeInterval + fetchTime) need2Fetch = true;
+    else if (!isContestOver(fetchTime, endTimeEpoch)) need2Fetch = true;
 
+    // データを取得する
     if (need2Fetch) {
-        // 提出集をAtCoder Problemsから取得する
-        jsondata = await (await (fetch(URL))).json();
-        localStorage.setItem(KEY_DATA, JSON.stringify(jsondata));
-        localStorage.setItem(KEY_LASTFETCH, nowTime);
+        // alert(keyData + "is fetched.");
+        jsondata = await (await (fetch(url))).json();
+        localStorage.setItem(keyData, JSON.stringify(jsondata));
+        localStorage.setItem(keyLastFetch, nowTime);
     }
 
     return jsondata;
