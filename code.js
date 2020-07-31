@@ -28,7 +28,7 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
     // URLから問題ID(ex: abc170_a)を取得
     const path = location.pathname.split("/");
     const problemId = path[path.length - 1];
-    const isABS = path[path.length - 3] == "abs";
+    const isABS = path[2] == "abs";
 
     // 問題のコンテストが開催中ならば全ての処理をスキップする。
     if (!isABS && !isContestOver(nowTime)) return;
