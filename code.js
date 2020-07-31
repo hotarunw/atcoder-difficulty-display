@@ -209,7 +209,7 @@ function searchSubmissionsResult(submissions) {
     let accepted = false;
     let acceptedDuringContest = false;
     let penalties = 0;
-    let acceptedTime = false;
+    let acceptedTime = contestEndTime;
     let maxPoint = 0;
     let maxPointDuringContest = 0;
 
@@ -218,9 +218,9 @@ function searchSubmissionsResult(submissions) {
 
         if (item.result == "AC") {
             accepted = true;
-            if (duringContest && !acceptedDuringContest) {
+            if (duringContest) {
                 acceptedDuringContest = true;
-                acceptedTime = item.epoch_second;
+                acceptedTime = Math.min(item.epoch_second, acceptedTime);
             }
         }
 
