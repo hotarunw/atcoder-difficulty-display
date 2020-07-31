@@ -11,22 +11,23 @@
 
 ## Description
 
-AtCoderの問題のページにAtCoder Problemsが推定した難易度と、その問題を正解したかどうかを表示します。
+AtCoderの問題のページにAtCoder Problemsが推定した**難易度**と、**その問題を正解したか**どうかを表示します。
 
+難易度が表示されて色付けされます。
+推定不可能な問題の場合は**Unavailable**と表示します。
 実験的手法で推定された難易度には、AtCoder Problemsと同様に「🧪」をつけています。
 難易度については[AtCoder Problems の難易度推定について](http://pepsin-amylase.hatenablog.com/entry/atcoder-problems-difficulty)を参考にしてください。
 
-正解したかなどの提出状況が4種類で表されます。
+正解したかどうかの提出状況が4通りの文字列で表されます。
 
-* Is Solved: ✓（背景緑）: コンテスト中に正解しました。
-* Is Solved: ✓（緑）: 正解しました。
-* Is Solved: ✘（黄色）: 提出しましたが正解はしていません。
-* Is Solved: ✘（灰色）: 提出していません。
+* **Is Solved: ✓（背景緑）**: コンテスト中に正解した。
+* **Is Solved: ✓（緑）**: 正解した。
+* **Is Solved: ✘（黄色）**: 提出したが未正解。
+* **Is Solved: ✘（灰色）**: 未提出。
 
 さらに、コンテスト中のペナルティ数と得点した提出時間が表示されます。
-
+マラソン問題であれば最大得点も表示されます。
 提出状況は1時間毎に取得しているため、反映は少し遅れます。
-
 **AtCoder Beginners Selection**の問題では提出状況は表示されません。
 
 ## Install
