@@ -18,12 +18,12 @@
 //
 // ==/UserScript==
 
-(async function () {
-    // 現在時間、コンテスト開始時間、コンテスト終了時間（UNIX時間 + 時差）
-    const nowTime = Math.floor(Date.now() / 1000);
-    const startTimeEpoch = Math.floor(Date.parse(startTime._i) / 1000);
-    const endTimeEpoch = Math.floor(Date.parse(endTime._i) / 1000);
+// 現在時間、コンテスト開始時間、コンテスト終了時間（UNIX時間 + 時差）
+const nowTime = Math.floor(Date.now() / 1000);
+const contestStartTime = Math.floor(Date.parse(startTime._i) / 1000);
+const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
 
+(async function () {
     // URLから問題ID(ex: abc170_a)を取得
     const path = location.pathname.split("/");
     const problemId = path[path.length - 1];
@@ -33,7 +33,7 @@
     const problemTitle = document.getElementsByClassName("h2")[0];
 
     // 問題のコンテストが開催中ならば全ての処理をスキップする。
-    if (!isABS && !isContestOver(nowTime, endTimeEpoch)) return;
+    if (!isABS && !isContestOver(nowTime)) return;
 
     const diffURL = "https://kenkoooo.com/atcoder/resources/problem-models.json";
     const diffKey = "atcoderDifficultyDisplayEstimatedDifficulties";
@@ -41,34 +41,34 @@
     const submissionsURL = "https://kenkoooo.com/atcoder/atcoder-api/results?user=" + userScreenName;
     const submissionsKey = "atcoderDifficultyDisplayUserSubmissions";
 
-    const estimatedDifficulties = await fetchAPIData(diffURL, diffKey, nowTime, endTimeEpoch, 24 * 60 * 60);
-    const userSubmissions = await fetchAPIData(submissionsURL, submissionsKey, nowTime, endTimeEpoch, 1 * 60 * 60);
+    const estimatedDifficulties = await fetchAPIData(diffURL, diffKey, 24 * 60 * 60);
+    const userSubmissions = await fetchAPIData(submissionsURL, submissionsKey, 1 * 60 * 60);
 
     changeProblemTitle(problemId, estimatedDifficulties, problemTitle);
     addDifficultyText(problemId, estimatedDifficulties, problemStatus);
     if (!isABS)
-        addIsSolvedText(problemId, userSubmissions, problemStatus, startTimeEpoch, endTimeEpoch);
+        addIsSolvedText(problemId, userSubmissions, problemStatus);
 })();
 
 // コンテストが終了した？
-function isContestOver(nowTime, endTimeEpoch) {
+function isContestOver(nowTime) {
     // 緩衝時間(20分)
     const bufferTime = 20 * 60;
 
     // 現在時間 > コンテスト終了時間 + 緩衝時間？
-    if (nowTime > endTimeEpoch + bufferTime) return true;
+    if (nowTime > contestEndTime + bufferTime) return true;
     return false;
 }
 
 // APIサーバからデータを取得してlocalStorageに保存して返す
 // 直前の取得から時間が経過していないならば保存したデータを返す
-async function fetchAPIData(url, keyData, nowTime, endTimeEpoch, timeInterval) {
+async function fetchAPIData(url, keyData, timeInterval) {
     const keyLastFetch = keyData + "lastFetchedAt";
     let jsondata = JSON.parse(localStorage.getItem(keyData));
     const fetchTime = parseInt(localStorage.getItem(keyLastFetch));
 
     // コンテストが終了していないならばデータ取得はしない
-    if (!isContestOver(nowTime, endTimeEpoch)) return jsondata;
+    if (!isContestOver(nowTime)) return jsondata;
 
     // 次のいずれかを満たすならば取得する
     // * データが保存されていない
@@ -78,11 +78,11 @@ async function fetchAPIData(url, keyData, nowTime, endTimeEpoch, timeInterval) {
     let need2Fetch = false;
     if (isNaN(fetchTime)) need2Fetch = true;
     else if (nowTime >= timeInterval + fetchTime) need2Fetch = true;
-    else if (!isContestOver(fetchTime, endTimeEpoch)) need2Fetch = true;
+    else if (!isContestOver(fetchTime)) need2Fetch = true;
 
     // データを取得する
     if (need2Fetch) {
-        // alert(keyData + "is fetched.");
+        alert(keyData + "is fetched.");
         jsondata = await (await (fetch(url))).json();
         localStorage.setItem(keyData, JSON.stringify(jsondata));
         localStorage.setItem(keyLastFetch, nowTime);
@@ -202,7 +202,7 @@ function addDifficultyText(problemId, estimatedDifficulties, problemStatus) {
 }
 
 // AC、コンテスト中AC、ペナルティ数、AC時間を計算
-function searchSubmissionsResult(submissions, endTimeEpoch) {
+function searchSubmissionsResult(submissions) {
     const nonPenaltyJudge = ["AC", "CE", "IE", "WJ", "WR"];
     submissions.sort((a, b) => a.epoch_second - b.epoch_second);
 
@@ -212,7 +212,7 @@ function searchSubmissionsResult(submissions, endTimeEpoch) {
     let acceptedTime = false;
 
     for (const item of submissions) {
-        const duringContest = item.epoch_second <= endTimeEpoch;
+        const duringContest = item.epoch_second <= contestEndTime;
 
         if (item.result == "AC") {
             accepted = true;
@@ -235,10 +235,10 @@ function epochTime2HHMM(time) {
 }
 
 // ACしたか、AC時間、ペナルティ数を表示
-function addIsSolvedText(problemId, userSubmissions, problemStatus, startTimeEpoch, endTimeEpoch) {
+function addIsSolvedText(problemId, userSubmissions, problemStatus) {
     const submissions = userSubmissions.filter(function (item, index) { if (item.problem_id == problemId) return true; });
     const submitted = submissions.length > 0;
-    const { accepted, acceptedDuringContest, penalties, acceptedTime } = searchSubmissionsResult(submissions, endTimeEpoch);
+    const { accepted, acceptedDuringContest, penalties, acceptedTime } = searchSubmissionsResult(submissions);
 
     let text = "Is Solved: ";
     if (acceptedDuringContest) text += "<span style='font-weight: bold; color: white; background: green; border-radius: 20%;'>✓</span>";
@@ -247,7 +247,7 @@ function addIsSolvedText(problemId, userSubmissions, problemStatus, startTimeEpo
     else text += "<span style='font-weight: bold; color: gray;'>✘</span>";
 
     if (acceptedDuringContest)
-        text += " <span style='font-size: x-small; color: grey;'>" + epochTime2HHMM(acceptedTime - startTimeEpoch) + "</span> ";
+        text += " <span style='font-size: x-small; color: grey;'>" + epochTime2HHMM(acceptedTime - contestStartTime) + "</span> ";
 
     if (penalties > 0)
         text += " <span style='font-size: x-small; color: red;'>(" + penalties + ")</span> ";
