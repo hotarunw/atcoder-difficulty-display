@@ -102,11 +102,24 @@ async function fetchAPIData(url, keyData, timeInterval) {
     if (need2Fetch) {
         // alert(keyData + "is fetched.");
         jsondata = await (await (fetch(url))).json();
+        removeUnusedValues(jsondata);
         localStorage.setItem(keyData, JSON.stringify(jsondata));
         localStorage.setItem(keyLastFetch, nowTime);
     }
 
     return jsondata;
+}
+
+function removeUnusedValues(jsondata) {
+    const necessaryKeys = ["difficulty", "is_experimental", "epoch_second", "point", "result", "problem_id"];
+
+    for (const item in jsondata) {
+        for (const key in jsondata[item]) {
+            if (!necessaryKeys.includes(key)) {
+                delete jsondata[item][key];
+            }
+        }
+    }
 }
 
 // Webページの問題ステータス（実行時間制限とメモリ制限が書かれた部分）のHTMLオブジェクトを取得
