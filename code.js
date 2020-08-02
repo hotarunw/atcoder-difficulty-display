@@ -210,9 +210,9 @@ function generateDifficultyText(difficulty, is_experimental) {
     difficulty = correctLowerRating(difficulty);
     difficulty = difficulty.toFixed();
 
-    textValue = "<span style='font-weight: bold; color: " + colorRating(difficulty) + ";'>" + difficulty + "</span>";
+    const textValue = "<span style='font-weight: bold; color: " + colorRating(difficulty) + ";'>" + difficulty + "</span>";
     // textDiff = "<a href='https://kenkoooo.com/atcoder/#/table/" + userScreenName + "'>Difficulty</a>";
-    textDiff = "Difficulty";
+    const textDiff = "Difficulty";
 
     return textDiff + ": " + textValue + (is_experimental ? " (🧪)" : "");
 }
