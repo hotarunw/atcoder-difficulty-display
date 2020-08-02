@@ -39,7 +39,7 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
     const submissionsURL = "https://kenkoooo.com/atcoder/atcoder-api/results?user=" + userScreenName;
     const submissionsKey = "atcoderDifficultyDisplayUserSubmissions";
 
-    const estimatedDifficulties = await fetchAPIData(diffURL, diffKey, 24 * 60 * 60);
+    const estimatedDifficulties = await fetchAPIData(diffURL, diffKey, 1 * 60 * 60);
     const userSubmissions = await fetchAPIData(submissionsURL, submissionsKey, 1 * 60 * 60);
 
 
