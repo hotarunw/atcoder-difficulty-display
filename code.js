@@ -199,7 +199,7 @@ function changeProblemTitle(problemId, estimatedDifficulties, problemTitle, size
     }
     else {
         problemTitle.style.color = "#17a2b8";
-        const unavailableCircle = "<span style='font-weight: bold; color: white;background:#17a2b8; border-radius: 50%;padding:0.2rem;'>?</span>";
+        const unavailableCircle = "(?)";
         problemTitle.insertAdjacentHTML("afterbegin", unavailableCircle);
     }
 }
