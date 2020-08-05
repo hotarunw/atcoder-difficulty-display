@@ -47,7 +47,7 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
         const problemStatus = getElementOfProblemStatus();
         const problemTitle = document.getElementsByClassName("h2")[0];
 
-        changeProblemTitle(problemId, estimatedDifficulties, problemTitle);
+        changeProblemTitle(problemId, estimatedDifficulties, problemTitle, false);
         addDifficultyText(problemId, estimatedDifficulties, problemStatus);
         if (!isABS)
             addIsSolvedText(problemId, userSubmissions, problemStatus);
@@ -62,7 +62,7 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
 
         if (hpath[hpath.length - 2] == "tasks") {
             const hProblemId = hpath[hpath.length - 1];
-            changeProblemTitle(hProblemId, estimatedDifficulties, item, 12);
+            changeProblemTitle(hProblemId, estimatedDifficulties, item, true);
         }
 
     }
@@ -153,25 +153,28 @@ function colorRating(rating) {
 }
 
 // レートを表す難易度円(◒)を生成
-function generateDifficultyCircle(rating, size = 12) {
+function generateDifficultyCircle(rating, isSmall = true) {
+    const size = (isSmall ? 12 : 36);
+    const borderWidth = (isSmall ? 1 : 3);
+
     if (rating < 3200) {
         // 色と円がどのぐらい満ちているかを計算
         const color = colorRating(rating);
         const percentFull = (rating % 400) / 400 * 100;
 
         // ◒を生成
-        return "<span style = 'display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: initial; height: " + size + "px; width: " + size + "px;border-color: " + color + "; background: linear-gradient(to top, " + color + " 0%, " + color + " " + percentFull + "%, rgba(0, 0, 0, 0) " + percentFull + "%, rgba(0, 0, 0, 0) 100%); '></span>";
+        return "<span style = 'display: inline-block; border-radius: 50%; border-style: solid;border-width: " + borderWidth + "px; margin-right: 5px; vertical-align: initial; height: " + size + "px; width: " + size + "px;border-color: " + color + "; background: linear-gradient(to top, " + color + " 0%, " + color + " " + percentFull + "%, rgba(0, 0, 0, 0) " + percentFull + "%, rgba(0, 0, 0, 0) 100%); '></span>";
 
     }
     // 金銀銅は例外処理
     else if (rating < 3600) {
-        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: initial; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(150, 92, 44); background: linear-gradient(to right, rgb(150, 92, 44), rgb(255, 218, 189), rgb(150, 92, 44));"></span>';
+        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: ' + borderWidth + 'px; margin-right: 5px; vertical-align: initial; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(150, 92, 44); background: linear-gradient(to right, rgb(150, 92, 44), rgb(255, 218, 189), rgb(150, 92, 44));"></span>';
 
     } else if (rating < 4000) {
-        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: initial; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(128, 128, 128); background: linear-gradient(to right, rgb(128, 128, 128), white, rgb(128, 128, 128));"></span>';
+        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: ' + borderWidth + 'px; margin-right: 5px; vertical-align: initial; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(128, 128, 128); background: linear-gradient(to right, rgb(128, 128, 128), white, rgb(128, 128, 128));"></span>';
 
     } else {
-        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: 1px; margin-right: 5px; vertical-align: initial; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(255, 215, 0); background: linear-gradient(to right, rgb(255, 215, 0), white, rgb(255, 215, 0));"></span>';
+        return '<span style="display: inline-block; border-radius: 50%; border-style: solid;border-width: ' + borderWidth + 'px; margin-right: 5px; vertical-align: initial; height: ' + size + 'px; width: ' + size + 'px; border-color: rgb(255, 215, 0); background: linear-gradient(to right, rgb(255, 215, 0), white, rgb(255, 215, 0));"></span>';
 
     }
 }
@@ -186,7 +189,7 @@ function correctLowerRating(rating) {
     return rating;
 }
 
-function changeProblemTitle(problemId, estimatedDifficulties, problemTitle, size = 30) {
+function changeProblemTitle(problemId, estimatedDifficulties, problemTitle, isSmall = true) {
     const problem = estimatedDifficulties[problemId];
 
     // 問題が存在しなければ終了
@@ -195,7 +198,7 @@ function changeProblemTitle(problemId, estimatedDifficulties, problemTitle, size
         const difficulty = correctLowerRating(problem.difficulty).toFixed();
         problemTitle.style.color = colorRating(difficulty);
         if (problem.is_experimental) problemTitle.insertAdjacentHTML("afterbegin", "🧪");
-        problemTitle.insertAdjacentHTML("beforebegin", generateDifficultyCircle(difficulty, size));
+        problemTitle.insertAdjacentHTML("beforebegin", generateDifficultyCircle(difficulty, isSmall));
     }
     else {
         problemTitle.style.color = "#17a2b8";
