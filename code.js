@@ -55,12 +55,14 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
 
     const as = document.getElementsByTagName("a");
     for (const item of as) {
-        if (item.text.length <= 2) continue;
         const h = item.getAttribute("href");
         if (typeof (h) != "string") continue;
         const hpath = h.split("/");
 
         if (hpath[hpath.length - 2] == "tasks") {
+            // itemが*/tasksページの表の一番左なら色付けしない
+            if (item.parentElement.className == "text-center no-break") continue;
+
             const hProblemId = hpath[hpath.length - 1];
             changeProblemTitle(hProblemId, estimatedDifficulties, item, true);
         }
