@@ -7,11 +7,10 @@
 // @description     AtCoder Problemsの難易度を表示します。
 // @description:en  display a difficulty of AtCoder Problems.
 // @author          hotarunx
-// @match           https://atcoder.jp/contests/*/tasks*
-// @match           https://atcoder.jp/contests/*/submissions*
+// @match           https://atcoder.jp/contests/*
 // @grant           none
-// @connect         https://kenkoooo.com/atcoder/resources/*
-// @connect         https://kenkoooo.com/atcoder/atcoder-api/*
+// @connect         https://kenkoooo.com/atcoder/resources/problem-models.json
+// @connect         https://kenkoooo.com/atcoder/atcoder-api/results?user=*
 // @license         MIT
 //
 // Copyright(c) 2020 hotarunx
