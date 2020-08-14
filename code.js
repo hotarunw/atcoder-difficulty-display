@@ -3,11 +3,12 @@
 // @namespace       https://github.com/hotarunx
 // @homepage        https://github.com/hotarunx/AtCoderDifficultyDisplay
 // @supportURL      https://github.com/hotarunx/AtCoderDifficultyDisplay/issues
-// @version         1.0.2
+// @version         1.0.3
 // @description     AtCoder Problemsの難易度を表示します。
 // @description:en  display a difficulty of AtCoder Problems.
 // @author          hotarunx
 // @match           https://atcoder.jp/contests/*
+// @exclude         https://atcoder.jp/contests/
 // @grant           none
 // @connect         https://kenkoooo.com/atcoder/resources/problem-models.json
 // @connect         https://kenkoooo.com/atcoder/atcoder-api/results?user=*
