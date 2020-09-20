@@ -61,7 +61,7 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
 
         if (hpath[hpath.length - 2] == "tasks") {
             // itemが*/tasksページの表の一番左なら色付けしない
-            if (item.parentElement.className.startsWith("text-center")) continue;
+            if (item.parentElement.className === "text-center no-break") continue;
 
             const hProblemId = hpath[hpath.length - 1];
             changeProblemTitle(hProblemId, estimatedDifficulties, item, true);
