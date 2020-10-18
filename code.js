@@ -1,12 +1,12 @@
 // ==UserScript==
 // @name            AtCoder Difficulty Display
-// @namespace       https://github.com/hotarunx
-// @homepage        https://github.com/hotarunx/AtCoderDifficultyDisplay
-// @supportURL      https://github.com/hotarunx/AtCoderDifficultyDisplay/issues
+// @namespace       https://github.com/hotaroon
+// @homepage        https://github.com/hotaroon/AtCoderDifficultyDisplay
+// @supportURL      https://github.com/hotaroon/AtCoderDifficultyDisplay/issues
 // @version         1.0.3
 // @description     AtCoder Problemsの難易度を表示します。
 // @description:en  display a difficulty of AtCoder Problems.
-// @author          hotarunx
+// @author          hotaroon
 // @match           https://atcoder.jp/contests/*
 // @exclude         https://atcoder.jp/contests/
 // @grant           none
@@ -14,8 +14,8 @@
 // @connect         https://kenkoooo.com/atcoder/atcoder-api/results?user=*
 // @license         MIT
 //
-// Copyright(c) 2020 hotarunx
-// This software is released under the MIT License, see LICENSE or https://github.com/hotarunx/AtCoderMyExtensions/blob/master/LICENSE.
+// Copyright(c) 2020 hotaroon
+// This software is released under the MIT License, see LICENSE or https://github.com/hotaroon/AtCoderMyExtensions/blob/master/LICENSE.
 //
 // ==/UserScript==
 
