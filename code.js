@@ -1,9 +1,16 @@
 // ==UserScript==
 // @name            AtCoder Difficulty Display
+<<<<<<< HEAD
 // @namespace       https://github.com/hotaroon
 // @homepage        https://github.com/hotaroon/AtCoderDifficultyDisplay
 // @supportURL      https://github.com/hotaroon/AtCoderDifficultyDisplay/issues
 // @version         1.0.3
+=======
+// @namespace       https://github.com/hotarunx
+// @homepage        https://github.com/hotarunx/AtCoderDifficultyDisplay
+// @supportURL      https://github.com/hotarunx/AtCoderDifficultyDisplay/issues
+// @version         1.0.4
+>>>>>>> bb455b00b8a4ac27826ab4e8ba12de222d50aefd
 // @description     AtCoder Problemsの難易度を表示します。
 // @description:en  display a difficulty of AtCoder Problems.
 // @author          hotaroon
