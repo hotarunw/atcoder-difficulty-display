@@ -3,7 +3,7 @@
 // @namespace       https://github.com/hotaroon
 // @homepage        https://github.com/hotaroon/AtCoderDifficultyDisplay
 // @supportURL      https://github.com/hotaroon/AtCoderDifficultyDisplay/issues
-// @version         1.0.3
+// @version         1.0.5
 // @description     AtCoder Problemsの難易度を表示します。
 // @description:en  display a difficulty of AtCoder Problems.
 // @author          hotaroon
