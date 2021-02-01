@@ -250,7 +250,7 @@ function searchSubmissionsResult(submissions) {
     let maxPointDuringContest = 0;
 
     for (const item of submissions) {
-        const duringContest = item.epoch_second <= contestEndTime;
+        const duringContest = item.epoch_second < contestEndTime;
 
         if (item.result == "AC") {
             accepted = true;
