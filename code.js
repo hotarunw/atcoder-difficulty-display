@@ -3,7 +3,7 @@
 // @namespace       https://github.com/hotarunx
 // @homepage        https://github.com/hotarunx/AtCoderDifficultyDisplay
 // @supportURL      https://github.com/hotarunx/AtCoderDifficultyDisplay/issues
-// @version         1.0.5
+// @version         1.0.6
 // @description     AtCoder Problemsの難易度を表示します。
 // @description:en  display a difficulty of AtCoder Problems.
 // @author          hotarunx
@@ -250,7 +250,7 @@ function searchSubmissionsResult(submissions) {
     let maxPointDuringContest = 0;
 
     for (const item of submissions) {
-        const duringContest = item.epoch_second < contestEndTime;
+        const duringContest = contestStartTime <= item.epoch_second && item.epoch_second < contestEndTime;
 
         if (item.result == "AC") {
             accepted = true;
