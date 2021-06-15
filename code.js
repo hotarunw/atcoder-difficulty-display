@@ -3,7 +3,7 @@
 // @namespace       https://github.com/hotarunx
 // @homepage        https://github.com/hotarunx/AtCoderDifficultyDisplay
 // @supportURL      https://github.com/hotarunx/AtCoderDifficultyDisplay/issues
-// @version         1.0.6
+// @version         1.0.7
 // @description     AtCoder Problemsの難易度を表示します。
 // @description:en  display a difficulty of AtCoder Problems.
 // @author          hotarunx
@@ -185,10 +185,7 @@ function generateDifficultyCircle(rating, isSmall = true) {
 // 参考 https://qiita.com/anqooqie/items/92005e337a0d2569bdbd#性質4-初心者への慈悲
 function correctLowerRating(rating) {
     if (rating >= 400) return rating;
-    do {
-        rating = 400 / Math.exp((400 - rating) / 400);
-    } while (rating < 0);
-    return rating;
+    return rating = 400 / Math.exp((400 - rating) / 400);
 }
 
 function changeProblemTitle(problemId, estimatedDifficulties, problemTitle, isSmall = true) {
