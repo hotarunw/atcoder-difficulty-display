@@ -185,7 +185,7 @@ function generateDifficultyCircle(rating, isSmall = true) {
 // 参考 https://qiita.com/anqooqie/items/92005e337a0d2569bdbd#性質4-初心者への慈悲
 function correctLowerRating(rating) {
     if (rating >= 400) return rating;
-    return rating = 400 / Math.exp((400 - rating) / 400);
+    return 400 / Math.exp((400 - rating) / 400);
 }
 
 function changeProblemTitle(problemId, estimatedDifficulties, problemTitle, isSmall = true) {
