@@ -11,25 +11,19 @@
 
 ## Description
 
-AtCoderの問題のページにAtCoder Problemsが推定した**難易度**と、**その問題を正解したか**どうかを表示します。
+AtCoderの問題のページにAtCoder Problemsが推定した**難易度**を表示します。
 
 難易度が表示されて色付けされます。
 推定不可能な問題の場合は**Unavailable**と表示します。
 実験的手法で推定された難易度には、AtCoder Problemsと同様に「🧪」をつけています。
 難易度については[AtCoder Problems の難易度推定について](http://pepsin-amylase.hatenablog.com/entry/atcoder-problems-difficulty)を参考にしてください。
 
-正解したかどうかの提出状況が4通りの文字列で表されます。
+### Recent Update
 
-* **Is Solved: ✓（背景緑）**: コンテスト中に正解した。
-* **Is Solved: ✓（緑）**: 正解した。
-* **Is Solved: ✘（黄色）**: 提出したが未正解。
-* **Is Solved: ✘（灰色）**: 未提出。
+提出状況を問題ページに表示する機能を削除しました。
+提出状況を取得するために使っていたAPIがdeprecatedになったためと、新しいAPIでの実装方法がちょっと思いついていないためです。
 
-さらに、コンテスト中のペナルティ数と得点した提出時間が表示されます。
-マラソン問題であれば最大得点も表示されます。
-提出状況は1時間毎に取得しているため、反映は少し遅れます。
-**AtCoder Beginners Selection**の問題では提出状況は表示されません。
-
+[Remove API \`/results\` · Issue \#961 · kenkoooo/AtCoderProblems](https://github.com/kenkoooo/AtCoderProblems/issues/961)
 ## Install
 
 1. [**Tampermonkey**](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja)などのユーザースクリプトマネージャをインストールします。
