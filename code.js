@@ -3,7 +3,7 @@
 // @namespace       https://github.com/hotarunx
 // @homepage        https://github.com/hotarunx/AtCoderDifficultyDisplay
 // @supportURL      https://github.com/hotarunx/AtCoderDifficultyDisplay/issues
-// @version         1.0.7
+// @version         1.0.8
 // @description     AtCoder Problemsの難易度を表示します。
 // @description:en  display a difficulty of AtCoder Problems.
 // @author          hotarunx
@@ -40,7 +40,7 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
     const submissionsKey = "atcoderDifficultyDisplayUserSubmissions";
 
     const estimatedDifficulties = await fetchAPIData(diffURL, diffKey, 1 * 60 * 60);
-    const userSubmissions = await fetchAPIData(submissionsURL, submissionsKey, 1 * 60 * 60);
+    // const userSubmissions = await fetchAPIData(submissionsURL, submissionsKey, 1 * 60 * 60);
 
 
     if (path[path.length - 2] == "tasks") {
@@ -49,8 +49,8 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
 
         changeProblemTitle(problemId, estimatedDifficulties, problemTitle, false);
         addDifficultyText(problemId, estimatedDifficulties, problemStatus);
-        if (!isABS)
-            addIsSolvedText(problemId, userSubmissions, problemStatus);
+        // if (!isABS)
+        // addIsSolvedText(problemId, userSubmissions, problemStatus);
     }
 
     const as = document.getElementsByTagName("a");
