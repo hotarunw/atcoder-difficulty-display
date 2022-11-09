@@ -3,7 +3,7 @@
 // @namespace       https://github.com/hotarunx
 // @homepage        https://github.com/hotarunx/AtCoderDifficultyDisplay
 // @supportURL      https://github.com/hotarunx/AtCoderDifficultyDisplay/issues
-// @version         1.0.8
+// @version         1.0.9
 // @description     AtCoder Problemsの難易度を表示します。
 // @description:en  display a difficulty of AtCoder Problems.
 // @author          hotarunx
@@ -42,13 +42,16 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
     const estimatedDifficulties = await fetchAPIData(diffURL, diffKey, 1 * 60 * 60);
     // const userSubmissions = await fetchAPIData(submissionsURL, submissionsKey, 1 * 60 * 60);
 
+    const problemFunctions = [];
+    const problemListFunctions = [];
 
     if (path[path.length - 2] == "tasks") {
         const problemStatus = getElementOfProblemStatus();
         const problemTitle = document.getElementsByClassName("h2")[0];
+        problemFunctions.push(() => changeProblemTitle(problemId, estimatedDifficulties, problemTitle, false));
+        problemFunctions.push(() => addDifficultyText(problemId, estimatedDifficulties, problemStatus));
+        addDifficultyShowButton(problemTitle, problemFunctions);
 
-        changeProblemTitle(problemId, estimatedDifficulties, problemTitle, false);
-        addDifficultyText(problemId, estimatedDifficulties, problemStatus);
         // if (!isABS)
         // addIsSolvedText(problemId, userSubmissions, problemStatus);
     }
@@ -64,9 +67,12 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
             if (item.parentElement.className === "text-center no-break") continue;
 
             const hProblemId = hpath[hpath.length - 1];
-            changeProblemTitle(hProblemId, estimatedDifficulties, item, true);
+            problemListFunctions.push(() => changeProblemTitle(hProblemId, estimatedDifficulties, item, true));
         }
-
+    }
+    if (problemListFunctions.length != 0) {
+      const problemListTitle = document.querySelector("#main-container > div.row > div:nth-child(2) > h2");
+      addDifficultyShowButton(problemListTitle, problemListFunctions);
     }
 })();
 
@@ -232,6 +238,16 @@ function addDifficultyText(problemId, estimatedDifficulties, problemStatus) {
         problemStatus.insertAdjacentHTML('beforeend', " / " + text);
     } else
         problemStatus.insertAdjacentHTML('beforeend', " / Difficulty: <span style='font-weight: bold; color: #17a2b8;'>Unavailable</span>");
+}
+
+function displayDifficulty(functions) {
+  functions.forEach(func => func());
+  document.getElementById('displayButton').style.display = 'none';
+}
+
+function addDifficultyShowButton(placeToAdd, functions) {
+  placeToAdd.insertAdjacentHTML("beforebegin", `<input id="displayButton" type="button" value="diff"/>`);
+  document.getElementById('displayButton').onclick = () => displayDifficulty(functions);
 }
 
 // AC、コンテスト中AC、ペナルティ数、AC時間、最大得点、コンテスト中最大得点を計算
