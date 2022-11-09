@@ -19,6 +19,8 @@
 //
 // ==/UserScript==
 
+let hideDifficulty = false;
+
 // 現在時間、コンテスト開始時間、コンテスト終了時間（UNIX時間 + 時差）
 const nowTime = Math.floor(Date.now() / 1000);
 const contestStartTime = Math.floor(Date.parse(startTime._i) / 1000);
@@ -48,9 +50,15 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
     if (path[path.length - 2] == "tasks") {
         const problemStatus = getElementOfProblemStatus();
         const problemTitle = document.getElementsByClassName("h2")[0];
-        problemFunctions.push(() => changeProblemTitle(problemId, estimatedDifficulties, problemTitle, false));
-        problemFunctions.push(() => addDifficultyText(problemId, estimatedDifficulties, problemStatus));
-        addDifficultyShowButton(problemTitle, problemFunctions);
+        if (hideDifficulty) {
+          problemFunctions.push(() => changeProblemTitle(problemId, estimatedDifficulties, problemTitle, false));
+          problemFunctions.push(() => addDifficultyText(problemId, estimatedDifficulties, problemStatus));
+          addDifficultyShowButton(problemTitle, problemFunctions);
+        }
+        else {
+          changeProblemTitle(problemId, estimatedDifficulties, problemTitle, false);
+          addDifficultyText(problemId, estimatedDifficulties, problemStatus);
+        }
 
         // if (!isABS)
         // addIsSolvedText(problemId, userSubmissions, problemStatus);
@@ -67,10 +75,15 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
             if (item.parentElement.className === "text-center no-break") continue;
 
             const hProblemId = hpath[hpath.length - 1];
-            problemListFunctions.push(() => changeProblemTitle(hProblemId, estimatedDifficulties, item, true));
+            if (hideDifficulty) {
+              problemListFunctions.push(() => changeProblemTitle(hProblemId, estimatedDifficulties, item, true));
+            }
+            else {
+              changeProblemTitle(hProblemId, estimatedDifficulties, item, true);
+            }
         }
     }
-    if (problemListFunctions.length != 0) {
+    if (hideDifficulty && problemListFunctions.length != 0) {
       const problemListTitle = document.querySelector("#main-container > div.row > div:nth-child(2) > h2");
       addDifficultyShowButton(problemListTitle, problemListFunctions);
     }
