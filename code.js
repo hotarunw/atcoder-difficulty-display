@@ -19,7 +19,7 @@
 //
 // ==/UserScript==
 
-let hideDifficulty = false;
+const hideDifficulty = false;
 
 // 現在時間、コンテスト開始時間、コンテスト終了時間（UNIX時間 + 時差）
 const nowTime = Math.floor(Date.now() / 1000);
