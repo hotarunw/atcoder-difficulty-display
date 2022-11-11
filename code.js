@@ -88,7 +88,8 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
       problemListFunctions.length != 0 &&
       path[path.length - 2] !== "tasks"
     ) {
-      const problemListTitle = document.querySelector("#main-container > div.row > div:nth-child(2) > h2");
+      const problemListTitle = document.getElementsByTagName("h2")[0];
+      problemListTitle.style.display = "inline";
       addDifficultyShowButton(problemListTitle, problemListFunctions);
     }
 })();
