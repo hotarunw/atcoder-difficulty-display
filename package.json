@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "format": "prettier --write \"src/**/*.{js,jsxts,tsx}\""
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
+  }
+}
