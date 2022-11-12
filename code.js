@@ -3,7 +3,7 @@
 // @namespace       https://github.com/hotarunx
 // @homepage        https://github.com/hotarunx/AtCoderDifficultyDisplay
 // @supportURL      https://github.com/hotarunx/AtCoderDifficultyDisplay/issues
-// @version         1.0.8
+// @version         1.0.9
 // @description     AtCoder Problemsの難易度を表示します。
 // @description:en  display a difficulty of AtCoder Problems.
 // @author          hotarunx
@@ -18,6 +18,8 @@
 // This software is released under the MIT License, see LICENSE or https://github.com/hotarunx/AtCoderMyExtensions/blob/master/LICENSE.
 //
 // ==/UserScript==
+
+const hideDifficulty = false;
 
 // 現在時間、コンテスト開始時間、コンテスト終了時間（UNIX時間 + 時差）
 const nowTime = Math.floor(Date.now() / 1000);
@@ -42,13 +44,22 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
     const estimatedDifficulties = await fetchAPIData(diffURL, diffKey, 1 * 60 * 60);
     // const userSubmissions = await fetchAPIData(submissionsURL, submissionsKey, 1 * 60 * 60);
 
+    const problemFunctions = [];
+    const problemListFunctions = [];
 
     if (path[path.length - 2] == "tasks") {
         const problemStatus = getElementOfProblemStatus();
         const problemTitle = document.getElementsByClassName("h2")[0];
+        if (hideDifficulty) {
+          problemFunctions.push(() => changeProblemTitle(problemId, estimatedDifficulties, problemTitle, false));
+          problemFunctions.push(() => addDifficultyText(problemId, estimatedDifficulties, problemStatus));
+          addDifficultyShowButton(problemTitle, problemFunctions);
+        }
+        else {
+          changeProblemTitle(problemId, estimatedDifficulties, problemTitle, false);
+          addDifficultyText(problemId, estimatedDifficulties, problemStatus);
+        }
 
-        changeProblemTitle(problemId, estimatedDifficulties, problemTitle, false);
-        addDifficultyText(problemId, estimatedDifficulties, problemStatus);
         // if (!isABS)
         // addIsSolvedText(problemId, userSubmissions, problemStatus);
     }
@@ -64,9 +75,22 @@ const contestEndTime = Math.floor(Date.parse(endTime._i) / 1000);
             if (item.parentElement.className === "text-center no-break") continue;
 
             const hProblemId = hpath[hpath.length - 1];
-            changeProblemTitle(hProblemId, estimatedDifficulties, item, true);
+            if (hideDifficulty) {
+              problemListFunctions.push(() => changeProblemTitle(hProblemId, estimatedDifficulties, item, true));
+            }
+            else {
+              changeProblemTitle(hProblemId, estimatedDifficulties, item, true);
+            }
         }
-
+    }
+        if (
+      hideDifficulty &&
+      problemListFunctions.length != 0 &&
+      path[path.length - 2] !== "tasks"
+    ) {
+      const problemListTitle = document.getElementsByTagName("h2")[0];
+      problemListTitle.style.display = "inline";
+      addDifficultyShowButton(problemListTitle, problemListFunctions);
     }
 })();
 
@@ -232,6 +256,16 @@ function addDifficultyText(problemId, estimatedDifficulties, problemStatus) {
         problemStatus.insertAdjacentHTML('beforeend', " / " + text);
     } else
         problemStatus.insertAdjacentHTML('beforeend', " / Difficulty: <span style='font-weight: bold; color: #17a2b8;'>Unavailable</span>");
+}
+
+function displayDifficulty(functions) {
+  functions.forEach(func => func());
+  document.getElementById('displayButton').style.display = 'none';
+}
+
+function addDifficultyShowButton(placeToAdd, functions) {
+  placeToAdd.insertAdjacentHTML("beforebegin", `<input id="displayButton" type="button" value="diff"/>`);
+  document.getElementById('displayButton').onclick = () => displayDifficulty(functions);
 }
 
 // AC、コンテスト中AC、ペナルティ数、AC時間、最大得点、コンテスト中最大得点を計算
