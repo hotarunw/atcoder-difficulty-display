@@ -29,6 +29,18 @@ AtCoderの問題のページにAtCoder Problemsが推定した**難易度**を�
 1. [**Tampermonkey**](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja)などのユーザースクリプトマネージャをインストールします。
 2. [![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoder-difficulty-display)からユーザースクリプトをインストールします。
 
+### ネタバレ防止機能
+
+![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/overview2.png)
+
+difficultyのネタバレ防止目的で最初はdifficultyを表示せず、ボタンを押すことでdifficultyを表示できます。
+該当コードをtrueに変更することでネタバレ防止機能を有効にできます。
+
+```diff
+- const hideDifficulty = false;
++ const hideDifficulty = true;
+```
+
 ## Note
 
 このユーザースクリプトは**AtCoder Problems**のAPIを使っているだけです。
