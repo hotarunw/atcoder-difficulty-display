@@ -106,7 +106,6 @@ import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
     }
   };
 
-  // TODO: ツールチップ
   // TODO: 自分の得点状況ページ対応
   // FIXME: Comfortable AtCoderのドロップダウン機能と連携
   // ドロップダウンの幅を大きく
