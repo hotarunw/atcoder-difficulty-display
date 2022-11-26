@@ -106,8 +106,6 @@ import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
     }
   };
 
-  // TODO: 自分の得点状況ページ対応
-
   // 色付け実行
   // TODO: ネタバレ防止機能が有効なら後で実行する
   colorizeElement();
