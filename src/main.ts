@@ -107,9 +107,6 @@ import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
   };
 
   // TODO: 自分の得点状況ページ対応
-  // FIXME: Comfortable AtCoderのドロップダウン機能と連携
-  // ドロップダウンの幅を大きく
-  // リンクをdisplay: inline-blockに
 
   // 色付け実行
   // TODO: ネタバレ防止機能が有効なら後で実行する
