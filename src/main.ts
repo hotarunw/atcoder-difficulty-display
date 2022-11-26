@@ -3,7 +3,7 @@ import difficultyCircle from "./components/difficultyCircle";
 import css from "./style/_custom.scss";
 import {
   getElementOfProblemStatus,
-  getElementsColorizable,
+  getElementsColorizable
 } from "./utils/getElementsColorizable";
 import isContestOver from "./utils/isContestOver";
 import { taskID } from "./utils/parser";
@@ -57,7 +57,7 @@ import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
 
       // ◒難易度円追加
       element.element.insertAdjacentHTML(
-        "beforebegin",
+        "afterbegin",
         difficultyCircle(difficulty, element.big)
       );
     });

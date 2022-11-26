@@ -43,13 +43,16 @@ export const contestID = URL[4] ?? "";
  * ページ種類 \
  * 基本的にコンテストIDの次のパス
  * ### 例外
- * 問題: task
+ * 個別の問題: task
  * 個別の提出: submission
+ * 個別の問題ページで解説ボタンを押すと遷移する個別の問題の解説一覧ページ: task_editorial
  */
 export const pageType = ((): string => {
   if (URL.length < 6) return "";
   if (URL.length >= 7 && URL[5] === "submissions" && URL[6] !== "me")
     return "submission";
+  if (URL.length >= 8 && URL[5] === "tasks" && URL[7] === "editorial")
+    return "task_editorial";
   if (URL.length >= 7 && URL[5] === "tasks") return "task";
   return URL[5] ?? "";
 })();

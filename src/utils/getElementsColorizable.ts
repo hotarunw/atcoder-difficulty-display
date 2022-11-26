@@ -34,7 +34,7 @@ export const getElementsColorizable = (): ElementAndId[] => {
     const taskIDFromURL =
       url[url.length - 2] === "tasks" ? url[url.length - 1] : "";
     // 個別の解説ページではbig
-    const big = element.parentElement?.classList.contains("h2") ?? false;
+    const big = element.parentElement?.tagName.includes("H2") ?? false;
     return { element, taskID: taskIDFromURL, big };
   });
   // 問題ページの一番左の要素は除く 見た目の問題です
