@@ -52,4 +52,4 @@ This software is released under the MIT License, see LICENSE.
 
 ### 使用したOSSソフトウェアのライセンス表示
 
-[NOTICE](./NOTICE)
+[NOTICE](./NOTICE.md)
