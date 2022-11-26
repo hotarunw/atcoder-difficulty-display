@@ -18,10 +18,12 @@ const difficultyCircle = (difficulty: number, big = true): string => {
     const className = `glyphicon glyphicon-question-sign aria-hidden='true'
     difficulty-unavailable
     ${big ? "difficulty-unavailable-icon-big" : "difficulty-unavailable-icon"}`;
+    const content = "Difficulty is unavailable.";
 
-    return `<span>
-              <span class="${className}"></span>
-            </span>`;
+    return `<span
+              class="${className}"
+              data-toggle="tooltip" title="${content}" data-placement="bottom"
+            />`;
   }
   const color = getColor(difficulty);
 

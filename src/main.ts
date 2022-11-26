@@ -62,6 +62,12 @@ import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
       );
     });
 
+    // bootstrap3のtooltipを有効化 難易度円の値を表示するtooltip
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, no-undef
+    $('[data-toggle="tooltip"]').tooltip();
+
     // 個別の問題ページのところに難易度等情報を追加
     if (elementProblemStatus) {
       // 難易度推定の対象外なら、この値はundefined

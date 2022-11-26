@@ -56,7 +56,12 @@ export const topcoderLikeCircle = (
   const theme = useTheme();
   const styleOptions = getStyleOptions(color, fillRatio, theme);
   const styleOptionsString = `border-color: ${styleOptions.borderColor}; background: ${styleOptions.background};`;
-  return `<span class="${className}" style="${styleOptionsString}" />`;
+  const content = `Difficulty: ${rating}`;
+  // FIXME: TooltipにSolve Prob, Solve Timeを追加
+  return `<span
+            class="${className}" style="${styleOptionsString}"
+            data-toggle="tooltip" title="${content}" data-placement="bottom"
+          />`;
 };
 
 export default topcoderLikeCircle;
