@@ -53,7 +53,7 @@ const parsePenalties = (submissionsArg: SubmissionEntry[]) => {
   let hasAccepted = false;
   submissionsArg.forEach((element) => {
     hasAccepted = element.result === "AC" || hasAccepted;
-    if (!hasAccepted && nonPenaltyJudge.includes(element.result)) {
+    if (!hasAccepted && !nonPenaltyJudge.includes(element.result)) {
       penalties += 1;
     }
   });
@@ -85,9 +85,9 @@ const parseRepresentativeSubmission = (submissionsArg: SubmissionEntry[]) => {
 };
 
 /**
- * 提出をパースして最大得点 ペナルティ数を返す
+ * 提出をパースして情報を返す
  * 対象: コンテスト前,中,後の提出 別コンテストの同じ問題への提出
- * 返す情報: 最大得点 ペナルティ数 ACするまでの時間  最後のAC無ければ最後の提出
+ * 返す情報: 得点が最大の提出 最初のACの提出 代表的な提出 ペナルティ数
  */
 export const analyzeSubmissions = (
   submissionsArg: SubmissionEntry[]
@@ -141,4 +141,167 @@ export const analyzeSubmissions = (
       representative: parseRepresentativeSubmission(anotherContest),
     },
   };
+};
+
+export type Period = "before" | "during" | "after" | "another";
+
+/**
+ * 提出状況を表すラベルを生成
+ */
+export const generateStatusLabel = (
+  submission: SubmissionEntry | undefined,
+  type: Period
+) => {
+  if (submission === undefined) {
+    return "";
+  }
+
+  const isAC = submission.result === "AC";
+
+  let className = "";
+  switch (type) {
+    case "before":
+      className = "label-primary";
+      break;
+    case "during":
+      className = isAC ? "label-success" : "label-warning";
+      break;
+    case "after":
+      className = isAC
+        ? "label-success-after-contest"
+        : "label-warning-after-contest";
+      break;
+    case "another":
+      className = "label-default";
+      break;
+    default:
+      break;
+  }
+
+  let content = "";
+  switch (type) {
+    case "before":
+      content = "コンテスト前の提出";
+      break;
+    case "during":
+      content = "コンテスト中の提出";
+      break;
+    case "after":
+      content = "コンテスト後の提出";
+      break;
+    case "another":
+      content = "別コンテストの同じ問題への提出";
+      break;
+    default:
+      break;
+  }
+
+  const href = `https://atcoder.jp/contests/${submission.contest_id}/submissions/${submission.id}`;
+
+  return `<span class="label ${className}"
+      data-toggle="tooltip" data-placement="bottom" title="${content}">
+      <a class="label-status-a" href=${href}>${submission.result}</a>
+    </span> `;
+};
+
+/**
+ * ペナルティ数を表示
+ */
+export const generatePenaltiesCount = (penalties: number) => {
+  if (penalties <= 0) {
+    return "";
+  }
+
+  const content = "コンテスト中のペナルティ数";
+
+  return `<span data-toggle="tooltip" data-placement="bottom" title="${content}"class="difficulty-red" style='font-weight: bold; font-size: x-small;'>
+            (${penalties.toString()})
+          </span>`;
+};
+
+/**
+ * 最初のACの時間を表示
+ */
+export const generateFirstAcTime = (
+  submission: SubmissionEntry | undefined
+) => {
+  if (submission === undefined) {
+    return "";
+  }
+
+  const content = "提出時間";
+
+  const href = `https://atcoder.jp/contests/${submission.contest_id}/submissions/${submission.id}`;
+
+  const elapsed = submission.epoch_second - startTime.unix();
+  const elapsedSeconds = elapsed % 60;
+  const elapsedMinutes = Math.trunc(elapsed / 60);
+
+  return `<span data-toggle="tooltip" data-placement="bottom" title="${content}">
+          <a class="difficulty-orange" style='font-weight: bold; font-size: x-small;' href=${href}>
+            ${elapsedMinutes}:${elapsedSeconds}
+          </a>
+        </span>`;
+};
+
+/**
+ * マラソン用に得点を表示するスパンを生成
+ */
+export const generateScoreSpan = (
+  submission: SubmissionEntry | undefined,
+  type: Period
+) => {
+  if (submission === undefined) {
+    return "";
+  }
+
+  // マラソン用を考えているのでとりあえず1万点未満は表示しない
+  if (submission.point < 10000) {
+    return "";
+  }
+
+  let className = "";
+  switch (type) {
+    case "before":
+      className = "difficulty-blue";
+      break;
+    case "during":
+      className = "difficulty-green";
+      break;
+    case "after":
+      className = "difficulty-yellow";
+      break;
+    case "another":
+      className = "difficulty-grey";
+      break;
+    default:
+      break;
+  }
+
+  let content = "";
+  switch (type) {
+    case "before":
+      content = "コンテスト前の提出";
+      break;
+    case "during":
+      content = "コンテスト中の提出";
+      break;
+    case "after":
+      content = "コンテスト後の提出";
+      break;
+    case "another":
+      content = "別コンテストの同じ問題への提出";
+      break;
+    default:
+      break;
+  }
+
+  const href = `https://atcoder.jp/contests/${submission.contest_id}/submissions/${submission.id}`;
+
+  return `<span
+      data-toggle="tooltip" data-placement="bottom" title="${content}">
+        <a class="${className}" style='font-weight: bold;' href=${href}>
+          ${submission.point}
+        </a>
+    </span> `;
 };

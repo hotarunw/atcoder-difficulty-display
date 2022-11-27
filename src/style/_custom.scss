@@ -93,3 +93,15 @@ $difficulty-unavailable-color: #17a2b8 !default;
   font-size: 36px;
   margin-right: 5px;
 }
+
+.label-status-a {
+  color: white;
+}
+
+.label-success-after-contest {
+  background-color: $success-intime-bg-color;
+}
+
+.label-warning-after-contest {
+  background-color: $warning-intime-bg-color;
+}

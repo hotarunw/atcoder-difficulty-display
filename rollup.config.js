@@ -17,6 +17,7 @@ const userScriptBanner = `
 // @supportURL   ${packageJson.bugs.url}
 // @match        https://atcoder.jp/contests/*
 // @exclude      https://atcoder.jp/contests/
+// @match        https://atcoder.jp/settings
 // @grant        GM_addStyle
 // @require      https://greasyfork.org/scripts/437862-atcoder-problems-api/code/atcoder-problems-api.js?version=1004589
 // ==/UserScript==`.trim();

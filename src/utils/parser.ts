@@ -11,7 +11,7 @@ export const parseURL = (url: string) => {
   return url.split("/").map((x) => x.replace(/\?.*/i, ""));
 };
 
-const URL = parseURL(window.location.href);
+export const URL = parseURL(window.location.href);
 
 /**
  * 表セル要素から、前の要素のテキストが引数と一致する要素を探す

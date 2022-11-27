@@ -4,17 +4,28 @@ import type { getSubmissions } from "atcoder-problems-api/submission";
 // atcoder-problems-apiをバンドルせずに型だけ呼び出す
 // ユーザースクリプトの@requireで呼ぶためバンドルは不要
 import difficultyCircle from "./components/difficultyCircle";
+import html from "./components/setting.html";
 import css from "./style/_custom.scss";
-import { analyzeSubmissions } from "./utils/analyzeSubmissions";
+import {
+  analyzeSubmissions,
+  generateFirstAcTime,
+  generatePenaltiesCount,
+  generateScoreSpan,
+  generateStatusLabel,
+} from "./utils/analyzeSubmissions";
 import {
   getElementOfProblemStatus,
   getElementsColorizable,
 } from "./utils/getElementsColorizable";
 import isContestOver from "./utils/isContestOver";
-import { taskID } from "./utils/parser";
+import { taskID, URL } from "./utils/parser";
 import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
 
-(async () => {
+/**
+ * コンテストページ <https://atcoder.jp/contests/*> の処理 \
+ * メインの処理
+ */
+const contestPageProcess = async () => {
   // コンテスト終了前は不要なので無効化する
   if (!isContestOver()) return;
 
@@ -75,14 +86,10 @@ import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
       );
     });
 
-    // bootstrap3のtooltipを有効化 難易度円の値を表示するtooltip
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, no-undef
-    $('[data-toggle="tooltip"]').tooltip();
-
     // 個別の問題ページのところに難易度等情報を追加
     if (elementProblemStatus) {
+      // 難易度の値を表示する
+
       // 難易度推定の対象外なら、この値はundefined
       const model = problemModels[taskID];
 
@@ -121,29 +128,58 @@ import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
         <span style='font-weight: bold;' class="${className}">${content}</span>`
       );
 
-      // 提出情報
-
       /** この問題への提出 提出時間ソート済みと想定 */
       const thisTaskSubmissions = submissions.filter(
         (element) => element.problem_id === taskID
       );
-
       const analyze = analyzeSubmissions(thisTaskSubmissions);
 
-      // TODO: 提出状況
-      elementProblemStatus.insertAdjacentHTML(
-        "beforeend",
-        ` / Status:
-        `
+      // コンテスト前中後外の提出状況 コンテスト中の解答時間とペナルティ数を表示する
+      let statuesHTML = "";
+      statuesHTML += generateStatusLabel(
+        analyze.before.representative,
+        "before"
       );
+      statuesHTML += generateStatusLabel(
+        analyze.during.representative,
+        "during"
+      );
+      statuesHTML += generateStatusLabel(analyze.after.representative, "after");
+      statuesHTML += generateStatusLabel(
+        analyze.another.representative,
+        "another"
+      );
+      statuesHTML += generatePenaltiesCount(analyze.during.penalties);
+      statuesHTML += generateFirstAcTime(analyze.during.firstAc);
 
-      // TODO: 得点 回答時間 ペナルティ
-      elementProblemStatus.insertAdjacentHTML(
-        "beforeend",
-        ` / Score:
-        `
-      );
+      if (statuesHTML.length > 0) {
+        elementProblemStatus.insertAdjacentHTML(
+          "beforeend",
+          ` / Status: ${statuesHTML}`
+        );
+      }
+
+      // コンテスト前中後外の1万点以上の最大得点を表示する
+      // NOTE: マラソン用のため、1万点以上とした
+      let scoresHTML = "";
+      scoresHTML += generateScoreSpan(analyze.before.maxScore, "before");
+      scoresHTML += generateScoreSpan(analyze.during.maxScore, "during");
+      scoresHTML += generateScoreSpan(analyze.after.maxScore, "after");
+      scoresHTML += generateScoreSpan(analyze.another.maxScore, "another");
+
+      if (scoresHTML.length > 0) {
+        elementProblemStatus.insertAdjacentHTML(
+          "beforeend",
+          ` / Scores: ${scoresHTML}`
+        );
+      }
     }
+
+    // bootstrap3のtooltipを有効化 難易度円の値を表示するtooltip
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, no-undef
+    $('[data-toggle="tooltip"]').tooltip();
   };
 
   // 色付け実行
@@ -151,8 +187,26 @@ import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
   // TODO: 設定画面に設定ボタンを追加
   // https://atcoder.jp/settings
   colorizeElement();
+};
 
-  console.log("elementsColorizable :>> ", elementsColorizable);
+const settingPageProcess = async () => {
+  const form = document.getElementsByClassName("form-horizontal")[0];
+  if (form === undefined) return;
+
+  form.insertAdjacentHTML("afterend", html);
+};
+
+/**
+ * 最初に実行される部分 \
+ * 共通の処理を実行した後ページごとの処理を実行する
+ */
+(async () => {
+  if (URL[3] === "contests" && URL.length >= 5) {
+    await contestPageProcess();
+  }
+  if (URL[3] === "settings" && URL.length === 4) {
+    await settingPageProcess();
+  }
 })().catch((error) => {
   // eslint-disable-next-line no-console
   console.error("[AtCoderDifficultyDisplay]", error);
