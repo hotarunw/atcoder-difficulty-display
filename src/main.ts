@@ -1,9 +1,14 @@
 import type { getEstimatedDifficulties } from "atcoder-problems-api/information";
+import type { getSubmissions } from "atcoder-problems-api/submission";
+// HACK: もっとスマートに呼ぶ方法はある?
+// atcoder-problems-apiをバンドルせずに型だけ呼び出す
+// ユーザースクリプトの@requireで呼ぶためバンドルは不要
 import difficultyCircle from "./components/difficultyCircle";
 import css from "./style/_custom.scss";
+import { analyzeSubmissions } from "./utils/analyzeSubmissions";
 import {
   getElementOfProblemStatus,
-  getElementsColorizable
+  getElementsColorizable,
 } from "./utils/getElementsColorizable";
 import isContestOver from "./utils/isContestOver";
 import { taskID } from "./utils/parser";
@@ -20,6 +25,14 @@ import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const problemModels = await getEstimatedDifficulties();
+  // TODO: 競プロ典型90問対応
+  // FIXME: JOI非公式難易度表対応
+
+  // 提出取得
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const submissions = await getSubmissions(userScreenName);
+  console.log("submissions :>> ", submissions);
 
   // 色付け対象の要素の配列を取得する
   // 難易度が無いものを除く
@@ -39,7 +52,7 @@ import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
       const model = problemModels[element.taskID];
       // 難易度がUnavailableならばdifficultyプロパティが無い
       // difficultyの値をNaNとする
-      const difficulty = clipDifficulty(model.difficulty ?? NaN);
+      const difficulty = clipDifficulty(model?.difficulty ?? NaN);
       console.log("model :>> ", model);
       // 色付け
       if (!Number.isNaN(difficulty)) {
@@ -51,13 +64,13 @@ import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
       }
 
       // 🧪追加
-      if (model.is_experimental) {
+      if (model?.is_experimental) {
         element.element.insertAdjacentText("afterbegin", "🧪");
       }
 
       // ◒難易度円追加
       element.element.insertAdjacentHTML(
-        "afterbegin",
+        element.afterbegin ? "afterbegin" : "beforebegin",
         difficultyCircle(difficulty, element.big)
       );
     });
@@ -97,17 +110,46 @@ import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
       } else {
         value = "None";
       }
+      // 🧪追加
+      const experimentalText = model?.is_experimental ? "🧪" : "";
+
+      const content = `${experimentalText}${value}`;
 
       elementProblemStatus.insertAdjacentHTML(
         "beforeend",
         ` / Difficulty:
-        <span style='font-weight: bold;' class="${className}">${value}</span>`
+        <span style='font-weight: bold;' class="${className}">${content}</span>`
+      );
+
+      // 提出情報
+
+      /** この問題への提出 提出時間ソート済みと想定 */
+      const thisTaskSubmissions = submissions.filter(
+        (element) => element.problem_id === taskID
+      );
+
+      const analyze = analyzeSubmissions(thisTaskSubmissions);
+
+      // TODO: 提出状況
+      elementProblemStatus.insertAdjacentHTML(
+        "beforeend",
+        ` / Status:
+        `
+      );
+
+      // TODO: 得点 回答時間 ペナルティ
+      elementProblemStatus.insertAdjacentHTML(
+        "beforeend",
+        ` / Score:
+        `
       );
     }
   };
 
   // 色付け実行
   // TODO: ネタバレ防止機能が有効なら後で実行する
+  // TODO: 設定画面に設定ボタンを追加
+  // https://atcoder.jp/settings
   colorizeElement();
 
   console.log("elementsColorizable :>> ", elementsColorizable);
