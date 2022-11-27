@@ -1,5 +1,6 @@
 import type { getEstimatedDifficulties } from "atcoder-problems-api/information";
 import type { getSubmissions } from "atcoder-problems-api/submission";
+import { backwardCompatibleProcessing, hideDifficultyID } from "./utils";
 // HACK: もっとスマートに呼ぶ方法はある?
 // atcoder-problems-apiをバンドルせずに型だけ呼び出す
 // ユーザースクリプトの@requireで呼ぶためバンドルは不要
@@ -37,13 +38,13 @@ const contestPageProcess = async () => {
   // @ts-ignore
   const problemModels = await getEstimatedDifficulties();
   // TODO: 競プロ典型90問対応
+  // TODO: PAST対応
   // FIXME: JOI非公式難易度表対応
 
   // 提出取得
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const submissions = await getSubmissions(userScreenName);
-  console.log("submissions :>> ", submissions);
 
   // 色付け対象の要素の配列を取得する
   // 難易度が無いものを除く
@@ -64,7 +65,6 @@ const contestPageProcess = async () => {
       // 難易度がUnavailableならばdifficultyプロパティが無い
       // difficultyの値をNaNとする
       const difficulty = clipDifficulty(model?.difficulty ?? NaN);
-      console.log("model :>> ", model);
       // 色付け
       if (!Number.isNaN(difficulty)) {
         const color = getRatingColorClass(difficulty);
@@ -96,7 +96,6 @@ const contestPageProcess = async () => {
       // 難易度がUnavailableのときはdifficultyの値をNaNとする
       // 難易度がUnavailableならばdifficultyプロパティが無い
       const difficulty = clipDifficulty(model?.difficulty ?? NaN);
-      console.log("model :>> ", model);
 
       // 色付け
       let className = "";
@@ -182,18 +181,57 @@ const contestPageProcess = async () => {
     $('[data-toggle="tooltip"]').tooltip();
   };
 
-  // 色付け実行
-  // TODO: ネタバレ防止機能が有効なら後で実行する
-  // TODO: 設定画面に設定ボタンを追加
-  // https://atcoder.jp/settings
-  colorizeElement();
+  // 色付け処理実行
+  if (!GM_getValue(hideDifficultyID, false)) {
+    // 設定 ネタバレ防止がOFFなら何もせず実行
+    colorizeElement();
+  } else {
+    // 設定 ネタバレ防止がONなら
+    // ページ上部にボタンを追加 押すと色付け処理が実行される
+    const place =
+      document.getElementsByTagName("h2")[0] ??
+      document.getElementsByClassName("h2")[0] ??
+      undefined;
+    if (place) {
+      place.insertAdjacentHTML(
+        "beforebegin",
+        `<input type="button" id="${hideDifficultyID}" class="btn btn-info"
+        value="Show Difficulty" />`
+      );
+
+      const button = document.getElementById(hideDifficultyID);
+
+      if (button) {
+        button.addEventListener("click", () => {
+          button.style.display = "none";
+          colorizeElement();
+        });
+      }
+    }
+  }
 };
 
-const settingPageProcess = async () => {
-  const form = document.getElementsByClassName("form-horizontal")[0];
-  if (form === undefined) return;
+/**
+ * 設定ページ <https://atcoder.jp/settings> の処理 \
+ * 設定ボタンを追加する
+ */
+const settingPageProcess = () => {
+  const insertion = document.getElementsByClassName("form-horizontal")[0];
+  if (insertion === undefined) return;
 
-  form.insertAdjacentHTML("afterend", html);
+  insertion.insertAdjacentHTML("afterend", html);
+
+  // 設定 ネタバレ防止のチェックボックスの読み込み 切り替え 保存処理を追加
+  const hideDifficultyChechbox = document.getElementById(hideDifficultyID);
+  if (
+    hideDifficultyChechbox &&
+    hideDifficultyChechbox instanceof HTMLInputElement
+  ) {
+    hideDifficultyChechbox.checked = GM_getValue(hideDifficultyID, false);
+    hideDifficultyChechbox.addEventListener("change", () => {
+      GM_setValue(hideDifficultyID, hideDifficultyChechbox.checked);
+    });
+  }
 };
 
 /**
@@ -201,11 +239,15 @@ const settingPageProcess = async () => {
  * 共通の処理を実行した後ページごとの処理を実行する
  */
 (async () => {
+  // 共通の処理
+  backwardCompatibleProcessing();
+
+  // ページ別の処理
   if (URL[3] === "contests" && URL.length >= 5) {
     await contestPageProcess();
   }
   if (URL[3] === "settings" && URL.length === 4) {
-    await settingPageProcess();
+    settingPageProcess();
   }
 })().catch((error) => {
   // eslint-disable-next-line no-console

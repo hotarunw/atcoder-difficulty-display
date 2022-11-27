@@ -133,14 +133,3 @@ export const judgeScore = ((): number => {
 
   return parseInt(scoreCell?.textContent?.trim() ?? "0", 10);
 })();
-
-export const parserTest = () => {
-  console.log("contestTitle :>> ", contestTitle);
-  console.log("contestId :>> ", contestID);
-  console.log("pageType :>> ", pageType);
-  console.log("taskId :>> ", taskID);
-  console.log("taskTitle :>> ", taskTitle);
-  console.log("submissionsUser :>> ", submissionsUser);
-  console.log("judgeStatus :>> ", judgeStatus);
-  console.log("score :>> ", judgeScore);
-};
