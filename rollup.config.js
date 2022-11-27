@@ -18,7 +18,7 @@ const userScriptBanner = `
 // @match        https://atcoder.jp/contests/*
 // @exclude      https://atcoder.jp/contests/
 // @grant        GM_addStyle
-// @require https://greasyfork.org/scripts/437862-atcoder-problems-api/code/atcoder-problems-api.js?version=1004589
+// @require      https://greasyfork.org/scripts/437862-atcoder-problems-api/code/atcoder-problems-api.js?version=1004589
 // ==/UserScript==`.trim();
 
 export default [
