@@ -23,7 +23,7 @@ export const RatingColors = [
 export type RatingColor = typeof RatingColors[number];
 export const getRatingColor = (rating: number): RatingColor => {
   const index = Math.min(Math.floor(rating / 400), RatingColors.length - 2);
-  return RatingColors[index + 1];
+  return RatingColors[index + 1] ?? "Black";
 };
 export type RatingColorClassName =
   | "difficulty-black"
