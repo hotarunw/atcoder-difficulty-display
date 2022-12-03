@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "bundle:watch",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: bundle:watch",
+      "detail": "rollup -c -w",
+      "runOptions": { "runOn": "folderOpen" }
+    }
+  ]
+}

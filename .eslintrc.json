@@ -1,0 +1,47 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "greasemonkey": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "airbnb",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "globals": {
+    "contestScreenName": "readonly",
+    "endTime": "readonly",
+    "startTime": "readonly",
+    "userScreenName": "readonly"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "extraFileExtensions": [".html"],
+    "project": "./tsconfig.json",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "import", "html"],
+  "root": true,
+  "rules": {
+    "func-style": ["error", "expression", { "allowArrowFunctions": true }],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  }
+}
