@@ -11,6 +11,7 @@ const permanentContestIDs = [
   "tessoku-book",
 ];
 
+// FIXME: FIXME: Problemsでデータ取れなかったらコンテストが終了していない判定で良さそう
 /**
  * 開いているページのコンテストが終了していればtrue \
  * 例外処理として以下の場合もtrueを返す

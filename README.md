@@ -5,7 +5,8 @@
 [![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoder-difficulty-display)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-green)](https://github.com/hotarunx/AtCoderDifficultyDisplay)
 
-![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/overview.png)
+![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/img/overview1.png)
+![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/img/overview2.png)
 
 [**AtCoder**](https://atcoder.jp/) のページに [**AtCoder Problems**](https://kenkoooo.com/atcoder/) の難易度を表示するユーザースクリプトです。
 
@@ -24,15 +25,12 @@ AtCoder のページに AtCoder Problems が推定した**難易度**を表示�
 
 ### ネタバレ防止機能
 
-![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/overview2.png)
+![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/img/config1.png)
+![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/img/config2.png)
 
 difficulty のネタバレ防止目的で最初は difficulty を表示せず、ボタンを押すことで difficulty を表示できます。
-該当コードを true に変更することでネタバレ防止機能を有効にできます。
 
-```diff
-- const hideDifficulty = false;
-+ const hideDifficulty = true;
-```
+[基本設定 \- AtCoder](https://atcoder.jp/settings) の下部にあるネタバレ防止のチェックボックスを ON にすることで有効になります。
 
 ## Note
 

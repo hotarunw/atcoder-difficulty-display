@@ -1,6 +1,13 @@
-import type { getEstimatedDifficulties } from "atcoder-problems-api/information";
+import type {
+  getEstimatedDifficulties,
+  getProblems,
+} from "atcoder-problems-api/information";
 import type { getSubmissions } from "atcoder-problems-api/submission";
-import { backwardCompatibleProcessing, hideDifficultyID } from "./utils";
+import {
+  addTypical90Difficulty,
+  backwardCompatibleProcessing,
+  hideDifficultyID,
+} from "./utils";
 // HACK: もっとスマートに呼ぶ方法はある?
 // atcoder-problems-apiをバンドルせずに型だけ呼び出す
 // ユーザースクリプトの@requireで呼ぶためバンドルは不要
@@ -33,15 +40,22 @@ const contestPageProcess = async () => {
   // FIXME: ダークテーマ対応
   GM_addStyle(css);
 
-  // 難易度取得
+  /** 問題一覧取得 */
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const problemModels = await getEstimatedDifficulties();
-  // TODO: 競プロ典型90問対応
-  // TODO: PAST対応
+  const problems = await getProblems();
+
+  /** 難易度取得 */
+  const problemModels = addTypical90Difficulty(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    await getEstimatedDifficulties(),
+    problems
+  );
+  // FIXME: PAST対応
   // FIXME: JOI非公式難易度表対応
 
-  // 提出取得
+  /** 提出状況取得 */
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const submissions = await getSubmissions(userScreenName);
@@ -82,7 +96,7 @@ const contestPageProcess = async () => {
       // ◒難易度円追加
       element.element.insertAdjacentHTML(
         element.afterbegin ? "afterbegin" : "beforebegin",
-        difficultyCircle(difficulty, element.big)
+        difficultyCircle(difficulty, element.big, model?.extra_difficulty)
       );
     });
 

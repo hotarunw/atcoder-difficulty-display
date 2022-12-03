@@ -12,7 +12,11 @@ const getColor = (difficulty: number) => {
   return "Gold";
 };
 
-const difficultyCircle = (difficulty: number, big = true): string => {
+const difficultyCircle = (
+  difficulty: number,
+  big = true,
+  extraDescription = ""
+): string => {
   if (Number.isNaN(difficulty)) {
     // Unavailableの難易度円はProblemsとは異なりGlyphiconの「?」を使用
     const className = `glyphicon glyphicon-question-sign aria-hidden='true'
@@ -27,7 +31,7 @@ const difficultyCircle = (difficulty: number, big = true): string => {
   }
   const color = getColor(difficulty);
 
-  return topcoderLikeCircle(color, difficulty, big);
+  return topcoderLikeCircle(color, difficulty, big, extraDescription);
 };
 
 export default difficultyCircle;

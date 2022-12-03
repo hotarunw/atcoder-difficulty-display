@@ -48,7 +48,8 @@ const getStyleOptions = (
 export const topcoderLikeCircle = (
   color: RatingColorWithMetal,
   rating: number,
-  big = true
+  big = true,
+  extraDescription = ""
 ): string => {
   const fillRatio = rating >= 3200 ? 1.0 : (rating % 400) / 400;
   const className = `topcoder-like-circle
@@ -56,7 +57,9 @@ export const topcoderLikeCircle = (
   const theme = useTheme();
   const styleOptions = getStyleOptions(color, fillRatio, theme);
   const styleOptionsString = `border-color: ${styleOptions.borderColor}; background: ${styleOptions.background};`;
-  const content = `Difficulty: ${rating}`;
+  const content = extraDescription
+    ? `Difficulty: ${extraDescription}`
+    : `Difficulty: ${rating}`;
   // FIXME: TooltipにSolve Prob, Solve Timeを追加
   return `<span
             class="${className}" style="${styleOptionsString}"

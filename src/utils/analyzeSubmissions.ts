@@ -1,12 +1,5 @@
-import type { getSubmissions } from "atcoder-problems-api/submission";
-import { nonPenaltyJudge } from "./index";
+import { nonPenaltyJudge, SubmissionEntry } from "./index";
 import { contestID, taskID } from "./parser";
-
-export type SubmissionEntry = (ReturnType<
-  typeof getSubmissions
-> extends Promise<infer P>
-  ? P
-  : never)[number];
 
 export type analyzeReturn = {
   before: {
