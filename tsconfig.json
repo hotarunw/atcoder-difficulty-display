@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src/",
+    "baseUrl": "./src",
     "module": "ESNext",
     "moduleResolution": "node",
     "strict": true,
