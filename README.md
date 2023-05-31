@@ -18,6 +18,13 @@ AtCoder のページに AtCoder Problems が推定した**難易度**を表示�
 推定不可能な問題の場合は**Unavailable**と表示します。
 実験的手法で推定された難易度には、AtCoder Problems と同様に「🧪」をつけます。
 
+## 現在あるバグ
+
+まれにDifficultyが何も表示されなくなるバグがあります。
+開発者ツールのアプリケーションタブから **ATCODER-PROBLEMS-API-** という名前のIndexedDBデータベースを削除すると解消します。
+
+バグの原因が分からなくて困っています。心当たりあればIssue<https://github.com/hotarunx/AtCoderDifficultyDisplay/issues/18>に投稿してほしいです。バグ発生時のデータベースのデータもほしいです。
+
 ## Install
 
 1. [**Tampermonkey**](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=ja) などのユーザースクリプトマネージャをインストールします。
