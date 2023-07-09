@@ -265,5 +265,5 @@ const settingPageProcess = () => {
   }
 })().catch((error) => {
   // eslint-disable-next-line no-console
-  console.error("[AtCoderDifficultyDisplay]", error);
+  console.error("[atcoder-difficulty-display]", error);
 });
