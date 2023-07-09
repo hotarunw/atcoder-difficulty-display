@@ -20,10 +20,10 @@ AtCoder のページに AtCoder Problems が推定した**難易度**を表示�
 
 ## 現在あるバグ
 
-まれにDifficultyが何も表示されなくなるバグがあります。
-開発者ツールのアプリケーションタブから **ATCODER-PROBLEMS-API-** という名前のIndexedDBデータベースを削除すると解消します。
+まれに Difficulty が何も表示されなくなるバグがあります。
+開発者ツールのアプリケーションタブから **ATCODER-PROBLEMS-API-** という名前の IndexedDB データベースを削除すると解消します。
 
-バグの原因が分からなくて困っています。心当たりあればIssue<https://github.com/hotaru-n/atcoder-difficulty-display/issues/18>に投稿してほしいです。バグ発生時のデータベースのデータもほしいです。
+バグの原因が分からなくて困っています。心当たりあれば Issue<https://github.com/hotaru-n/atcoder-difficulty-display/issues/18>に投稿してほしいです。バグ発生時のデータベースのデータもほしいです。
 
 ## Install
 
@@ -55,7 +55,7 @@ Copyright (c) 2020 hotaru-n
 
 This software is released under the MIT License, see LICENSE.
 
-### 使用したOSSソフトウェアのライセンス表示
+### 使用した OSS ソフトウェアのライセンス表示
 
 [NOTICE](./NOTICE.md)
 
