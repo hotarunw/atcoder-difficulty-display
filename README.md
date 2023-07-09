@@ -3,10 +3,10 @@
 ## AtCoder Difficulty Display
 
 [![GreasyFork](https://img.shields.io/badge/GreasyFork-install-orange)](https://greasyfork.org/ja/scripts/397185-atcoder-difficulty-display)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-green)](https://github.com/hotarunx/AtCoderDifficultyDisplay)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-green)](https://github.com/hotaru-n/AtCoderDifficultyDisplay)
 
-![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/img/overview1.png)
-![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/img/overview2.png)
+![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotaru-n/AtCoderDifficultyDisplay/master/img/overview1.png)
+![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotaru-n/AtCoderDifficultyDisplay/master/img/overview2.png)
 
 [**AtCoder**](https://atcoder.jp/) のページに [**AtCoder Problems**](https://kenkoooo.com/atcoder/) の難易度を表示するユーザースクリプトです。
 
@@ -23,7 +23,7 @@ AtCoder のページに AtCoder Problems が推定した**難易度**を表示�
 まれにDifficultyが何も表示されなくなるバグがあります。
 開発者ツールのアプリケーションタブから **ATCODER-PROBLEMS-API-** という名前のIndexedDBデータベースを削除すると解消します。
 
-バグの原因が分からなくて困っています。心当たりあればIssue<https://github.com/hotarunx/AtCoderDifficultyDisplay/issues/18>に投稿してほしいです。バグ発生時のデータベースのデータもほしいです。
+バグの原因が分からなくて困っています。心当たりあればIssue<https://github.com/hotaru-n/AtCoderDifficultyDisplay/issues/18>に投稿してほしいです。バグ発生時のデータベースのデータもほしいです。
 
 ## Install
 
@@ -32,8 +32,8 @@ AtCoder のページに AtCoder Problems が推定した**難易度**を表示�
 
 ### ネタバレ防止機能
 
-![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/img/config1.png)
-![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotarunx/AtCoderDifficultyDisplay/master/img/config2.png)
+![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotaru-n/AtCoderDifficultyDisplay/master/img/config1.png)
+![AtCoderDifficultyDisplay](https://raw.githubusercontent.com/hotaru-n/AtCoderDifficultyDisplay/master/img/config2.png)
 
 difficulty のネタバレ防止目的で最初は difficulty を表示せず、ボタンを押すことで difficulty を表示できます。
 
@@ -43,7 +43,7 @@ difficulty のネタバレ防止目的で最初は difficulty を表示せず、
 
 このユーザースクリプトは**AtCoder Problems**の API を使っているのみで、**AtCoder Problems**とは関わりはありません。
 
-意見があれば [GitHub リポジトリ](https://github.com/hotarunx/AtCoderDifficultyDisplay) に Issue を立ててください。
+意見があれば [GitHub リポジトリ](https://github.com/hotaru-n/AtCoderDifficultyDisplay) に Issue を立ててください。
 
 難易度については [AtCoder Problems の難易度推定について](http://pepsin-amylase.hatenablog.com/entry/atcoder-problems-difficulty) を見てください。
 
@@ -51,7 +51,7 @@ difficulty のネタバレ防止目的で最初は difficulty を表示せず、
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Copyright (c) 2020 hotarunx
+Copyright (c) 2020 hotaru-n
 
 This software is released under the MIT License, see LICENSE.
 

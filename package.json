@@ -15,10 +15,10 @@
     "bundle:watch": "rollup -c -w",
     "test": "jest"
   },
-  "author": "hotarunx",
+  "author": "hotaru-n",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/hotarunx/AtCoderDifficultyDisplay/issues"
+    "url": "https://github.com/hotaru-n/AtCoderDifficultyDisplay/issues"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^9.0.2",
