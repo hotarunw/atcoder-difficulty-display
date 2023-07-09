@@ -26,7 +26,7 @@ import {
   getElementsColorizable,
 } from "./utils/getElementsColorizable";
 import isContestOver from "./utils/isContestOver";
-import { taskID, URL } from "./utils/parser";
+import { URL, taskID } from "./utils/parser";
 import { clipDifficulty, getRatingColorClass } from "./utils/problemsIndex";
 
 /**
