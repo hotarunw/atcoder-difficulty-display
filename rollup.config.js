@@ -9,7 +9,7 @@ import packageJson from "./package.json" assert { type: "json" };
 const userScriptBanner = `
 // ==UserScript==
 // @name         ${packageJson.name}
-// @namespace    https://github.com/hotaru-n
+// @namespace    https://github.com/hotarunw
 // @version      ${packageJson.version}
 // @description  ${packageJson.description}
 // @author       ${packageJson.author}
