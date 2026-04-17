@@ -1,13 +1,13 @@
 {
+  "include": ["src/**/*", "types/**/*"],
   "compilerOptions": {
-    "baseUrl": "./src",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "target": "es2021",
     "typeRoots": ["types", "node_modules/@types"],
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist"]
 }
