@@ -92,13 +92,65 @@ export const addTypical90Difficulty = (
 
 /** CORS対策でGM_xmlhttpRequestを使用する */
 export const xfetch = async <T>(url: string): Promise<T> => {
+  const etagKey = `atcoder-difficulty-display:etag:${url}`;
+  const bodyKey = `atcoder-difficulty-display:body:${url}`;
+  const previousEtag = GM_getValue(etagKey, "");
+
+  const getHeaderValue = (headers: string, key: string): string => {
+    const line = headers
+      .split(/\r?\n/)
+      .find((element) =>
+        element.toLowerCase().startsWith(`${key.toLowerCase()}:`),
+      );
+    return line?.split(":").slice(1).join(":").trim() ?? "";
+  };
+
   return await new Promise<T>((resolve, reject) => {
     GM_xmlhttpRequest({
       method: "GET",
       url: url,
+      nocache: false,
+      headers: previousEtag
+        ? {
+            "If-None-Match": previousEtag,
+          }
+        : undefined,
       onload(response) {
+        const responseHeaders =
+          response.responseHeaders ?? response.headers ?? "";
+        const nextEtag = getHeaderValue(responseHeaders, "etag");
+
+        console.log("[atcoder-difficulty-display] response", {
+          url,
+          status: response.status,
+          responseHeaders,
+          nextEtag,
+          responseTextLength: response.responseText?.length ?? 0,
+        });
+
+        if (nextEtag) {
+          GM_setValue(etagKey, nextEtag);
+        }
+
+        if (response.status === 304) {
+          const cachedBody = GM_getValue(bodyKey, "");
+          console.log("[atcoder-difficulty-display] use cache", {
+            url,
+            cachedBodyLength: cachedBody.length,
+          });
+          if (cachedBody) {
+            resolve(JSON.parse(cachedBody) as T);
+            return;
+          }
+        }
+
+        const responseText = response.responseText ?? "";
+        if (responseText) {
+          GM_setValue(bodyKey, responseText);
+        }
+
         try {
-          resolve(JSON.parse(response.responseText) as T);
+          resolve(JSON.parse(responseText) as T);
         } catch (error) {
           reject(error);
         }
