@@ -1,6 +1,6 @@
 {
   "name": "atcoder-difficulty-display",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "AtCoder Problemsの難易度を表示します。",
   "typeRoots": [
     "types",
