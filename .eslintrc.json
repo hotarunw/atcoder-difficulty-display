@@ -27,7 +27,7 @@
     "project": "./tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "import", "html"],
+  "plugins": ["@typescript-eslint", "import"],
   "root": true,
   "rules": {
     "func-style": ["error", "expression", { "allowArrowFunctions": true }],

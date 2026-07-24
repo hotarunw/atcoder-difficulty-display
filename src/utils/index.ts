@@ -65,11 +65,11 @@ const getTypical90Description = (title: string): string => {
 
 export const addTypical90Difficulty = (
   problemModels: { [key: string]: ProblemModel },
-  problems: Problem[]
+  problems: Problem[],
 ): { [key: string]: ProblemModelEx } => {
   const models: { [key: string]: ProblemModelEx } = problemModels;
   const problemsT90 = problems.filter(
-    (element) => element.contest_id === "typical90"
+    (element) => element.contest_id === "typical90",
   );
   problemsT90.forEach((element) => {
     const difficulty = getTypical90Difficulty(element.title);
@@ -88,4 +88,24 @@ export const addTypical90Difficulty = (
     models[element.id] = model;
   });
   return models;
+};
+
+/** CORS対策でGM_xmlhttpRequestを使用する */
+export const xfetch = async <T>(url: string): Promise<T> => {
+  return await new Promise<T>((resolve, reject) => {
+    GM_xmlhttpRequest({
+      method: "GET",
+      url: url,
+      onload(response) {
+        try {
+          resolve(JSON.parse(response.responseText) as T);
+        } catch (error) {
+          reject(error);
+        }
+      },
+      onerror(response) {
+        reject(new Error(response.error || `Failed: ${response.status}`));
+      },
+    });
+  });
 };

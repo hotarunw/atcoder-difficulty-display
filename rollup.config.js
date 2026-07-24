@@ -21,6 +21,8 @@ const userScriptBanner = `
 // @grant        GM_addStyle
 // @grant        GM_setValue
 // @grant        GM_getValue
+// @grant        GM_xmlhttpRequest
+// @connect      kenkoooo.com
 // @require      https://greasyfork.org/scripts/437862-atcoder-problems-api/code/atcoder-problems-api.js?version=1004589
 // ==/UserScript==`.trim();
 

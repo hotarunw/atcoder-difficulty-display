@@ -1,12 +1,9 @@
-import type {
-  getEstimatedDifficulties,
-  getProblems,
-} from "atcoder-problems-api/information";
 import type { getSubmissions } from "atcoder-problems-api/submission";
 import {
   addTypical90Difficulty,
   backwardCompatibleProcessing,
   hideDifficultyID,
+  xfetch,
 } from "./utils";
 // HACK: もっとスマートに呼ぶ方法はある?
 // atcoder-problems-apiをバンドルせずに型だけ呼び出す
@@ -43,14 +40,19 @@ const contestPageProcess = async () => {
   /** 問題一覧取得 */
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const problems = await getProblems();
+
+  const problems = await xfetch<Problem[]>(
+    "https://kenkoooo.com/atcoder/resources/problems.json",
+  );
 
   /** 難易度取得 */
   const problemModels = addTypical90Difficulty(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    await getEstimatedDifficulties(),
-    problems
+    await xfetch<Record<string, ProblemModel>>(
+      "https://kenkoooo.com/atcoder/resources/problem-models.json",
+    ),
+    problems,
   );
   // FIXME: PAST対応
   // FIXME: JOI非公式難易度表対応
@@ -63,7 +65,7 @@ const contestPageProcess = async () => {
   // 色付け対象の要素の配列を取得する
   // 難易度が無いものを除く
   const elementsColorizable = getElementsColorizable().filter(
-    (element) => element.taskID in problemModels
+    (element) => element.taskID in problemModels,
   );
 
   // 問題ステータス（個別の問題ページの実行時間制限とメモリ制限が書かれた部分）を取得する
@@ -96,7 +98,7 @@ const contestPageProcess = async () => {
       // ◒難易度円追加
       element.element.insertAdjacentHTML(
         element.afterbegin ? "afterbegin" : "beforebegin",
-        difficultyCircle(difficulty, element.big, model?.extra_difficulty)
+        difficultyCircle(difficulty, element.big, model?.extra_difficulty),
       );
     });
 
@@ -138,12 +140,12 @@ const contestPageProcess = async () => {
       elementProblemStatus.insertAdjacentHTML(
         "beforeend",
         ` / Difficulty:
-        <span style='font-weight: bold;' class="${className}">${content}</span>`
+        <span style='font-weight: bold;' class="${className}">${content}</span>`,
       );
 
       /** この問題への提出 提出時間ソート済みと想定 */
       const thisTaskSubmissions = submissions.filter(
-        (element) => element.problem_id === taskID
+        (element) => element.problem_id === taskID,
       );
       const analyze = analyzeSubmissions(thisTaskSubmissions);
 
@@ -151,16 +153,16 @@ const contestPageProcess = async () => {
       let statuesHTML = "";
       statuesHTML += generateStatusLabel(
         analyze.before.representative,
-        "before"
+        "before",
       );
       statuesHTML += generateStatusLabel(
         analyze.during.representative,
-        "during"
+        "during",
       );
       statuesHTML += generateStatusLabel(analyze.after.representative, "after");
       statuesHTML += generateStatusLabel(
         analyze.another.representative,
-        "another"
+        "another",
       );
       statuesHTML += generatePenaltiesCount(analyze.during.penalties);
       statuesHTML += generateFirstAcTime(analyze.during.firstAc);
@@ -168,7 +170,7 @@ const contestPageProcess = async () => {
       if (statuesHTML.length > 0) {
         elementProblemStatus.insertAdjacentHTML(
           "beforeend",
-          ` / Status: ${statuesHTML}`
+          ` / Status: ${statuesHTML}`,
         );
       }
 
@@ -183,7 +185,7 @@ const contestPageProcess = async () => {
       if (scoresHTML.length > 0) {
         elementProblemStatus.insertAdjacentHTML(
           "beforeend",
-          ` / Scores: ${scoresHTML}`
+          ` / Scores: ${scoresHTML}`,
         );
       }
     }
@@ -210,7 +212,7 @@ const contestPageProcess = async () => {
       place.insertAdjacentHTML(
         "beforebegin",
         `<input type="button" id="${hideDifficultyID}" class="btn btn-info"
-        value="Show Difficulty" />`
+        value="Show Difficulty" />`,
       );
 
       const button = document.getElementById(hideDifficultyID);
